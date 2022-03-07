@@ -34,8 +34,6 @@ Original App Design Project - README Template
 * User can sign up using Parse Authentication
 * User can see a recyclerlist of popular cocktails (drink name, picture, overview) in main activity
 * User can expose details of a cocktail in a separate activity (detail activity)
-* User can favorite drinks in mainactivity and detail activity
-* User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 * User can navigate between tabs (stream and favorites)
 
 **Optional Nice-to-have Stories**
@@ -43,6 +41,8 @@ Original App Design Project - README Template
 * User can delete drinks in favorite list
 * In MainActivity, user can click on random drink button to reveal cocktail of the day
 * User can create and post custom cocktails specific to their id
+* User can favorite drinks in mainactivity and detail activity
+*   User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 
 ### 2. Screen Archetypes
 
