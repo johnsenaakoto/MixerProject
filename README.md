@@ -3,7 +3,7 @@ This is the repo for the student led app dev course, offered via CodePath.
 Original App Design Project - README Template
 ===
 
-# APP_NAME_HERE
+# MIXER
 
 ## Table of Contents
 1. [Overview](#Overview)
