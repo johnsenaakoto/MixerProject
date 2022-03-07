@@ -42,7 +42,7 @@ Original App Design Project - README Template
 * In MainActivity, user can click on random drink button to reveal cocktail of the day
 * User can create and post custom cocktails specific to their id
 * User can favorite drinks in mainactivity and detail activity
-  * User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
+* User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 
 ### 2. Screen Archetypes
 
