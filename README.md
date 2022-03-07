@@ -46,12 +46,19 @@ Original App Design Project - README Template
 
 ### 2. Screen Archetypes
 
-* Main Screen with a list of cocktails
-   * [list associated required story here]
-   * ...
-* 
-   * [list associated required story here]
-   * ...
+* Login/Register Screen
+   * User can log in and out using Parse authentication
+   * User can sign up using Parse Authentication
+
+* Stream Screen
+   * User can see a recyclerlist of popular cocktails (drink name, picture, overview) in stream activity
+   * User can favorite drinks in stream activity
+   * User can expose details of a cocktail in a separate activity (detail activity)
+   * User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
+
+* Favorites Screen
+   * User can see a recyclerlist of favorited cocktails (drink name, picture, overview) in favorite activity
+   * User can navigate to stream activity
 
 ### 3. Navigation
 
