@@ -40,10 +40,10 @@ Original App Design Project - README Template
 
 ### 2. Screen Archetypes
 
-* [list first screen here]
+* Main Screen with a list of cocktails
    * [list associated required story here]
    * ...
-* [list second screen here]
+* 
    * [list associated required story here]
    * ...
 
@@ -51,18 +51,22 @@ Original App Design Project - README Template
 
 **Tab Navigation** (Tab to Screen)
 
-* [fill out your first tab]
-* [fill out your second tab]
-* [fill out your third tab]
+* Stream
+* Favorites
 
 **Flow Navigation** (Screen to Screen)
 
-* [list first screen here]
-   * [list screen navigation here]
-   * ...
-* [list second screen here]
-   * [list screen navigation here]
-   * ...
+* Login/Register
+   * Stream
+* Stream
+   * Detail
+   * Favorites
+* Detail
+   * Stream
+   * Favorites
+* Favorites
+   * Detail
+   * Stream
 
 ## Wireframes
 [Add picture of your hand sketched wireframes in this section]
