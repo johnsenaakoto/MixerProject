@@ -13,7 +13,8 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
-[Description of your app]
+**Mixer** is an android app that allows users to view the latest cocktails and recipes to the drinks. Users can create a favorites drink list.
+Contributer: **John Sena Akoto**, **Karl Devlin**
 
 ### App Evaluation
 [Evaluation of your app across the following attributes]
