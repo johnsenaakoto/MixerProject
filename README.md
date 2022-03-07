@@ -17,13 +17,12 @@ Original App Design Project - README Template
 Contributer: **John Sena Akoto**, **Karl Devlin**
 
 ### App Evaluation
-[Evaluation of your app across the following attributes]
-- **Category:**
-- **Mobile:**
-- **Story:**
-- **Market:**
-- **Habit:**
-- **Scope:**
+- **Category:** Food and Drink
+- **Mobile:** Mobile is essential for quick access to recipes for cocktails. Also, at the club/bar you can look up popular drinks and order them.
+- **Story:** Helps people find popular drinks to order at the bar or make themselves at home.
+- **Market:** College students, and any young adults over the age of 21.
+- **Habit:** Young adults are making their own cocktails at their kickbacks, game nights and date nights at home
+- **Scope:** V1 would allow users to access popular cocktails and recipes. V2 would incorporate users making and submitting custom cocktail recipes
 
 ## Product Spec
 
