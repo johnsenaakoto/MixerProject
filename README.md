@@ -56,6 +56,12 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
    * User can expose details of a cocktail in a separate activity (detail activity)
    * User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 
+* Detail Screen
+   * User can favorite drink in detail activity
+   * User can see details of recipe
+   * User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
+   * User can navigate to stream activity
+
 * Favorites Screen
    * User can see a recyclerlist of favorited cocktails (drink name, picture, overview) in favorite activity
    * User can navigate to stream activity
