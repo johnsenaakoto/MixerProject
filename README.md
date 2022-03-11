@@ -13,7 +13,7 @@ Original App Design Project - README Template
 
 ## Overview
 ### Description
-**Mixer** is an android app that allows users to view the latest cocktails and recipes to the drinks. Users can create a favorites drink list.
+**Mixer** is an android app that allows users to view the latest cocktails and recipes to the drinks. Users can create a favorites drink list. API to use: https://www.thecocktaildb.com/api.php
 Contributer: **John Sena Akoto**, **Karl Devlin**
 
 ### App Evaluation
