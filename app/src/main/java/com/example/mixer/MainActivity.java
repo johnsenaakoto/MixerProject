@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
@@ -28,9 +29,11 @@ public class MainActivity extends AppCompatActivity {
     // Create a tag for logging this activity
     public static final String TAG = "MainActivity";
     List<Drink> drinks;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().hide();   // Hide Action bar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         RecyclerView rvDrinks = findViewById(R.id.rvDrinks);
@@ -44,8 +47,30 @@ public class MainActivity extends AppCompatActivity {
 
         // Set a layout manager
         rvDrinks.setLayoutManager(new LinearLayoutManager(this));
+        queryDrinks(drinkAdapter);
 
-        for (int i = 0; i < 3; i++) {
+        // Refresh screen when you swipe up
+        swipeContainer = findViewById(R.id.swipeContainer);
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                Log.i(TAG, "fetching new data!");
+                drinks.clear();
+                drinkAdapter.notifyDataSetChanged();
+                queryDrinks(drinkAdapter);
+                swipeContainer.setRefreshing(false);
+            }
+        });
+    }
+
+    private void queryDrinks(DrinkAdapter drinkAdapter) {
+        for (int i = 0; i < 10; i++) {
             // Instantiate an AsyncHttpClient to execute the API request
             AsyncHttpClient client = new AsyncHttpClient();
             final Drink[] drink = new Drink[1];
