@@ -106,11 +106,11 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 | Favorite |	Boolean	| True if cocktail is a favorite |
 ### Networking
 - Stream Screen
--   (Read/Get) Get all 10 random cocktails from API
--   (Create/POST) Create a new like on a cocktail
--   (Delete) Delete existing like
+  - (Read/Get) Get all 10 random cocktails from API
+  - Create/POST) Create a new like on a cocktail
+  - (Delete) Delete existing like
 - Favorites Screen
--   (Read/Get) Query all cocktails from the API that are listed as the user's favorites/liked
+  - (Read/Get) Query all cocktails from the API that are listed as the user's favorites/liked
 
 ```
 let query = PFQuery(className:"Drink")
@@ -128,11 +128,11 @@ query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
 ```
 
 - Login Screen
--   (Read) Check if an account already exsists for the user.
+  - (Read) Check if an account already exsists for the user.
 - Detail Screen
--   (Read/Get) Get the details pertaining to the cocktail from API
+  - (Read/Get) Get the details pertaining to the cocktail from API
 - [Create basic snippets for each Parse network request]
-- 
+
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
 - https://www.thecocktaildb.com/api.php
 
