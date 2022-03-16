@@ -102,21 +102,13 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 | Property	| Type	| Description |
 | --- | --- | --- |
 | Image	| File	| Image of cocktail |
-| --- | --- | --- |
 | Ingredients	| Array	| List of ingredients pertaining to cocktail |
-| --- | --- | --- |
 | Name	| String	| Name of cocktail |
-| --- | --- | --- |
 | Description	| String	| Description of cocktail |
-| --- | --- | --- |
 | Type	| String	| Type of cocktail |
-| --- | --- | --- |
 | IsAlcoholic	| Boolean |	True if the cocktail has alcohol |
-| --- | --- | --- |
 | Username | Pointer to user | The username of the user |
-| --- | --- | --- |
 | Password |	Pointer to user |	The password of the user |
-| --- | --- | --- |
 | Favorite |	Boolean	| True if cocktail is a favorite |
 ### Networking
 - [Add list of network requests by screen ]
