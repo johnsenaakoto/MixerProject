@@ -88,17 +88,11 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
    * Stream
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
 <img src=Wireframes.png width=600>
-
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
 
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
-[Add table of models]
 | Property	| Type	| Description |
 | --- | --- | --- |
 | Image	| File	| Image of cocktail |
@@ -111,9 +105,36 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 | Password |	Pointer to user |	The password of the user |
 | Favorite |	Boolean	| True if cocktail is a favorite |
 ### Networking
-- [Add list of network requests by screen ]
+- Stream Screen
+-   (Read/Get) Get all 10 random cocktails from API
+-   (Create/POST) Create a new like on a cocktail
+-   (Delete) Delete existing like
+- Favorites Screen
+-   (Read/Get) Query all cocktails from the API that are listed as the user's favorites/liked
+
+```
+let query = PFQuery(className:"Drink")
+query.whereKey("author", equalTo: currentUser)
+query.whereKey("DrinkI", equalTo: Favorite)
+query.order(byDescending: "createdAt")
+query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
+   if let error = error { 
+      print(error.localizedDescription)
+   } else if let Drinks = Drinks {
+      print("Successfully retrieved \(Drinks.count) drinks.")
+  // TODO: Do something with drinks...
+   }
+}
+```
+
+- Login Screen
+-   (Read) Check if an account already exsists for the user.
+- Detail Screen
+-   (Read/Get) Get the details pertaining to the cocktail from API
 - [Create basic snippets for each Parse network request]
+- 
 - [OPTIONAL: List endpoints if using existing API such as Yelp]
+- https://www.thecocktaildb.com/api.php
 
 ## Video Walkthrough
 
