@@ -131,10 +131,6 @@ query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
   - (Read) Check if an account already exsists for the user.
 - Detail Screen
   - (Read/Get) Get the details pertaining to the cocktail from API
-- [Create basic snippets for each Parse network request]
-
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
-- https://www.thecocktaildb.com/api.php
 
 ## Video Walkthrough
 
