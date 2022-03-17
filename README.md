@@ -88,21 +88,49 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
    * Stream
 
 ## Wireframes
-[Add picture of your hand sketched wireframes in this section]
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
-
-### [BONUS] Digital Wireframes & Mockups
-
-### [BONUS] Interactive Prototype
+<img src=Wireframes.png width=600>
 
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
-[Add table of models]
+| Property	| Type	| Description |
+| --- | --- | --- |
+| Image	| File	| Image of cocktail |
+| Ingredients	| Array	| List of ingredients pertaining to cocktail |
+| Name	| String	| Name of cocktail |
+| Description	| String	| Description of cocktail |
+| Type	| String	| Type of cocktail |
+| IsAlcoholic	| Boolean |	True if the cocktail has alcohol |
+| Username | Pointer to user | The username of the user |
+| Password |	Pointer to user |	The password of the user |
+| Favorite |	Boolean	| True if cocktail is a favorite |
 ### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+- Stream Screen
+  - (Read/Get) Get all 10 random cocktails from API
+  - Create/POST) Create a new like on a cocktail
+  - (Delete) Delete existing like
+- Favorites Screen
+  - (Read/Get) Query all cocktails from the API that are listed as the user's favorites/liked
+
+```
+let query = PFQuery(className:"Drink")
+query.whereKey("author", equalTo: currentUser)
+query.whereKey("DrinkI", equalTo: Favorite)
+query.order(byDescending: "createdAt")
+query.findObjectsInBackground { (posts: [PFObject]?, error: Error?) in
+   if let error = error { 
+      print(error.localizedDescription)
+   } else if let Drinks = Drinks {
+      print("Successfully retrieved \(Drinks.count) drinks.")
+  // TODO: Do something with drinks...
+   }
+}
+```
+
+- Login Screen
+  - (Read) Check if an account already exsists for the user.
+- Detail Screen
+  - (Read/Get) Get the details pertaining to the cocktail from API
 
 ## Video Walkthrough
 
