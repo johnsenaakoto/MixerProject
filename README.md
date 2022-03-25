@@ -43,6 +43,7 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 * User can create and post custom cocktails specific to their id
 * User can favorite drinks in mainactivity and detail activity
 * User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
+* App checks that user is of age before allowing them to sign up.
 
 ### 2. Screen Archetypes
 
