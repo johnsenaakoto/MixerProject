@@ -1,8 +1,12 @@
 package com.example.mixer;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,6 +37,10 @@ public class MainActivity extends AppCompatActivity {
 
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
+    private ImageButton btnProfile;
+    private Button btnLogout;
+    private int LogOutVisibility =0;
+    public static final String TAG = "MainActivity";    // Create a tag for logging this activity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bottomNavigation);
+        btnProfile = findViewById(R.id.ibLogOut);
+        btnLogout = findViewById(R.id.btnLogout);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -62,5 +72,28 @@ public class MainActivity extends AppCompatActivity {
         });
         // Set default selection
         bottomNavigationView.setSelectedItemId(R.id.action_home);
+
+        // Toggle visibility of btnLogout
+        btnProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (btnLogout.getVisibility() == View.INVISIBLE) {
+                    btnLogout.setVisibility(View.VISIBLE);
+                }
+                else if (btnLogout.getVisibility() == View.VISIBLE) {
+                    btnLogout.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i(TAG, "Clicked Logout button");
+                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                // TODO: Go to Logout user and go to LoginActivity
+            }
+        });
     }
 }
