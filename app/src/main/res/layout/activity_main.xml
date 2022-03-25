@@ -18,10 +18,11 @@
 
                 <ImageButton
                     android:id="@+id/icFavorite"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:src="@drawable/ic_favorite"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <ImageView
                     android:id="@+id/icLogo"
@@ -36,31 +37,42 @@
 
                 <ImageButton
                     android:id="@+id/ibLogOut"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:background="?attr/colorPrimary"
                     android:src="@drawable/ic_logout"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    tools:ignore="SpeakableTextPresentCheck" />
 
 
         </androidx.appcompat.widget.Toolbar>
 
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/swipeContainer"
+        <FrameLayout
+            android:id="@+id/flContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_above="@+id/bottomNavigation"
             android:layout_below="@+id/toolbar">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvDrinks"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/toolbar"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="0dp"
-                    android:background="@color/dark1" />
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="290dp"
+                    android:layout_marginTop="5dp"
+                    android:text="Logout"
+                    android:visibility="invisible" />
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </FrameLayout>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/purple_500"
+            app:itemIconTint="@color/light2"
+            app:itemTextColor="@color/light2"
+            app:menu="@menu/menu_bottom_navigation" />
 
 </RelativeLayout>
