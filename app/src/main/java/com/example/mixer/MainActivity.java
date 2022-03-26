@@ -1,6 +1,7 @@
 package com.example.mixer;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -23,6 +24,7 @@ import com.example.mixer.adapters.DrinkAdapter;
 import com.example.mixer.fragments.FavoritesFragment;
 import com.example.mixer.fragments.HomeFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private ImageButton btnProfile;
     private Button btnLogout;
-    private int LogOutVisibility =0;
+    private int LogOutVisibility = 0;
     public static final String TAG = "MainActivity";    // Create a tag for logging this activity
 
     @Override
@@ -91,9 +93,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Log.i(TAG, "Clicked Logout button");
-                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-                // TODO: Go to Logout user and go to LoginActivity
-            }
+//                Toast.makeText(MainActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                ParseUser.logOut();
+                goToLogIn();            }
         });
+    }
+    private void goToLogIn() {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        this.getSupportFragmentManager().popBackStack();
     }
 }
