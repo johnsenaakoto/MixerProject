@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/dark1">
+
 
     <Button
         android:id="@+id/btnSignUp"
@@ -67,7 +70,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="159dp"
-        android:layout_marginTop="306dp"
+        android:layout_marginTop="316dp"
         android:fontFamily="@font/aldrich"
         android:text="Login" />
 
