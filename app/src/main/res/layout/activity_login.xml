@@ -63,7 +63,6 @@
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:fontFamily="@font/aldrich"
         android:text="Login"
         android:layout_marginLeft="16dp"
