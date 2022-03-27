@@ -64,6 +64,6 @@ dependencies {
     // Room for simple persistence with an ORM
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
-    implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
 
+    implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
 }
