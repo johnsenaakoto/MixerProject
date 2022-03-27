@@ -1,77 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/dark1">
-
-
-    <Button
-        android:id="@+id/btnSignUp"
-        android:layout_width="99dp"
-        android:layout_height="52dp"
-        android:layout_below="@+id/etPassword"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="74dp"
-        android:fontFamily="@font/aldrich"
-        android:text="Sign Up" />
-
-    <EditText
-        android:id="@+id/etPassword"
-        android:layout_width="224dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/etUsername"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="3dp"
-        android:height="48dp"
-        android:ems="10"
-        android:fontFamily="@font/aldrich"
-        android:hint="Password..."
-        android:inputType="textPassword"
-        android:textColor="#FFFFFF"
-        android:textColorHint="#FFFFFF" />
+    android:orientation="vertical"
+    android:background="@color/dark1"
+    tools:context=".LoginActivity">
 
     <TextView
         android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="135dp"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginStart="120dp"
         android:fontFamily="@font/aldrich"
         android:text="mixer"
         android:textColor="@color/light1"
         android:textSize="55sp" />
 
+    <ImageView
+        android:id="@+id/ivIcon2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="60dp"
+        android:layout_marginStart="170dp"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        app:srcCompat="@drawable/ic_cocktail2" />
+
     <EditText
         android:id="@+id/etUsername"
-        android:layout_width="224dp"
-        android:layout_height="55dp"
-        android:layout_below="@+id/Title"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="43dp"
-        android:height="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
         android:ems="10"
         android:fontFamily="@font/aldrich"
-        android:hint="Username..."
+        android:hint="Username"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
-        android:textColorHint="#FCFCFC" />
+        android:textColorHint="#FCFCFC"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="48dp"
+        android:ems="10"
+        android:fontFamily="@font/aldrich"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#FCFCFC"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <Button
         android:id="@+id/btnLogin"
-        android:layout_width="99dp"
-        android:layout_height="52dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="159dp"
-        android:layout_marginTop="316dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:fontFamily="@font/aldrich"
-        android:text="Login" />
+        android:text="Login"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/aldrich"
+        android:text="Sign Up"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
+
+
+</LinearLayout>
