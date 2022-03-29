@@ -29,16 +29,19 @@
                 android:id="@+id/icFavorite"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_favorite"
-                android:visibility="visible" />
+                android:src="@drawable/ic_star"
+                android:scaleX="1.5"
+                android:scaleY="1.5"
+                android:visibility="visible"
+                android:background="?attr/colorPrimary"/>
 
             <ImageView
                 android:id="@+id/icLogo"
                 android:layout_width="280dp"
                 android:layout_height="40dp"
                 android:scaleType="centerInside"
-                android:scaleX="3.5"
-                android:scaleY="3.5"
+                android:scaleX="4"
+                android:scaleY="4"
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_mixer" />
 
@@ -112,8 +115,6 @@
             android:layout_height="400dp"
             android:background="@color/dark1"
             tools:text="Drink ingredients" />
-
-
 
     </LinearLayout>
 
