@@ -27,9 +27,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="60dp"
         android:layout_marginStart="170dp"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
-        app:srcCompat="@drawable/ic_cocktail2" />
+        android:scaleX="2.25"
+        android:scaleY="2.25"
+        app:srcCompat="@mipmap/ic_cocktail_icon_foreground" />
 
     <EditText
         android:id="@+id/etUsername"

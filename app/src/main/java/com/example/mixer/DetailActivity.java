@@ -2,12 +2,16 @@ package com.example.mixer;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.graphics.Movie;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -24,6 +28,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvInstructions;
     ListView lvIngredients;
     ImageView ivPoster;
+    ImageButton icFavorite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +42,7 @@ public class DetailActivity extends AppCompatActivity {
         ivPoster = findViewById(R.id.ivPoster);
         tvInstructions = findViewById(R.id.tvInstructions);
         lvIngredients = findViewById(R.id.lvIngredients);
+        icFavorite = findViewById(R.id.icFavorite);
 
         Drink drink = Parcels.unwrap(getIntent().getParcelableExtra("drink"));
         tvName.setText(drink.getDrinkName());
@@ -59,6 +65,15 @@ public class DetailActivity extends AppCompatActivity {
         int radius = 30; // corner radius, higher value = more rounded
         int margin = 10; // crop margin, set to 0 for corners with no crop
         Glide.with(DetailActivity.this).load(imageUrl).fitCenter().transform(new RoundedCornersTransformation(radius, margin)).into(ivPoster);
+
+        // Favorite icon
+        // TODO: Logic for favorite icon
+        icFavorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DetailActivity.this, "Added to Favorite Drinks", Toast.LENGTH_LONG).show();
+            }
+        });
 
     }
 }
