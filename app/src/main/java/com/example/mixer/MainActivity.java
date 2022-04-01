@@ -64,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.action_favorites:
                     default:
-                        // TODO: build Favorites Fragment
                         fragment = new FavoritesFragment();
                         break;
                 }

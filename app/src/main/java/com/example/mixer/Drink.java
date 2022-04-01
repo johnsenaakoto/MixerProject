@@ -65,30 +65,37 @@ public class Drink {
     }
 
     // getters to extract posterPath, title, and overview from Movie objects
-
+    // setters to set drinkID, setPosterPath, setDrinkName, setDrinkIBA, setDrinkCategory, setDrinkInstructions, setIngredients
     public int getDrinkID() { return drinkID; }
+    public void setDrinkID(int drinkID) { this.drinkID = drinkID; }
 
     public String getPosterPath() { return String.format(posterPath); }
+    public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
 
     public String getDrinkName() {
         return drinkName;
     }
+    public void setDrinkName(String drinkName) { this.drinkName = drinkName; }
 
     public String getDrinkIBA() {
         return drinkIBA;
     }
+    public void setDrinkIBA(String drinkIBA) { this.drinkIBA = drinkIBA; }
 
     public String getDrinkCategory() {
         return drinkCategory;
     }
+    public void setDrinkCategory(String drinkCategory) { this.drinkCategory = drinkCategory; }
 
     public String getDrinkInstructions() {
         return drinkInstructions;
     }
+    public void setDrinkInstructions(String drinkInstructions) { this.drinkInstructions = drinkInstructions; }
 
-    public List<String> getIngredients() {
+    public List<String> getDrinkIngredients() {
         return drinkIngredients;
     }
+    public void setDrinkIngredients(List<String> drinkIngredients) { this.drinkIngredients = drinkIngredients; }
 
 
 
