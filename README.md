@@ -30,11 +30,12 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 
 **Required Must-have Stories**
 
-- [ ] User can log in and out using Parse authentication
-- [ ] User can sign up using Parse Authentication
+- [X] User can log in and out using Parse authentication
+- [X] User can sign up using Parse Authentication
 - [X] User can see a recyclerlist of popular cocktails (drink name, picture, overview) in main activity
 - [X] User can expose details of a cocktail in a separate activity (detail activity)
-- [ ] User can navigate between tabs (stream and favorites)
+- [X] User can navigate between tabs (stream and favorites)
+- [ ] Favorites are sent and strored to the user's account
 
 **Optional Nice-to-have Stories**
 
