@@ -97,11 +97,10 @@ public class HomeFragment extends Fragment {
         });
     }
 
-    private void queryDrinks(DrinkAdapter drinkAdapter) {
+    protected void queryDrinks(DrinkAdapter drinkAdapter) {
         for (int i = 0; i < 10; i++) {
             // Instantiate an AsyncHttpClient to execute the API request
             AsyncHttpClient client = new AsyncHttpClient();
-            final Drink[] drink = new Drink[1];
 
             // Make a get request on the client object
             client.get(RANDOM_DRINK_URL, new JsonHttpResponseHandler() {
@@ -112,7 +111,6 @@ public class HomeFragment extends Fragment {
                     try {
                         JSONArray result = jsonObject.getJSONArray("drinks");
                         Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
-                        drink[0] = Drink.fromJsonArray(result);
                         drinks.add(Drink.fromJsonArray(result));
                         drinkAdapter.notifyDataSetChanged();
                         Log.i(TAG, "Drinks is: " + drinks);

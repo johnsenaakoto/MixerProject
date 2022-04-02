@@ -54,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                 DetailActivity.this,
                 R.layout.list_layout,
-                drink.drinkIngredients
+                drink.getDrinkIngredients()
         );
 
         lvIngredients.setAdapter(arrayAdapter);
