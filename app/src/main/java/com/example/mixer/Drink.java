@@ -51,15 +51,24 @@ public class Drink {
             String ingredientKey = ingredient + i;
             String measurementKey = measure + i;
 
-            String testIfNull = jsonObject.getString(ingredientKey);
-            testIfNull = testIfNull.replaceAll("\\s+","");
+            String nullIngredient = jsonObject.getString(ingredientKey);
+            String nullMeasurement = jsonObject.getString(measurementKey);
+            nullIngredient = nullIngredient.replaceAll("\\s+","");
+            nullMeasurement = nullMeasurement.replaceAll("\\s", "");
+
 
             // Parse ingredient and measurement from JSON
-            if (testIfNull == "null" || testIfNull.isEmpty()){
+            if (nullIngredient == "null" || nullIngredient.isEmpty()){
             }
             else {
-                String tempIngredient = jsonObject.getString(ingredientKey) + ": " + jsonObject.getString(measurementKey);
-                drinkIngredients.add(tempIngredient);
+                if (nullMeasurement == "null"){
+                    String tempIngredient = jsonObject.getString(ingredientKey);
+                    drinkIngredients.add(tempIngredient);
+                }
+                else{
+                    String tempIngredient = jsonObject.getString(ingredientKey) + ": " + jsonObject.getString(measurementKey);
+                    drinkIngredients.add(tempIngredient);
+                }
             }
         }
         Log.d("Ingredients", String.valueOf(drinkIngredients));
