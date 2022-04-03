@@ -15,3 +15,9 @@ buildscript {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    appCompatVersion = '1.0.0'
+    designSupportVersion = '1.0.0'
+    roomVersion = "2.1.0"
+}

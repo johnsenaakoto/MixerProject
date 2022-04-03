@@ -2,6 +2,9 @@ package com.example.mixer;
 
 import android.util.Log;
 
+import com.like.LikeButton;
+import com.parse.ParseUser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +16,7 @@ import java.util.Set;
 
 
 @Parcel // To make Drink object parceable
-// Encapsulates what makes up a movie in the app
+// Encapsulates what makes up a Drink in the app
 public class Drink {
     int drinkID;
     String drinkName;
@@ -22,6 +25,8 @@ public class Drink {
     String posterPath;
     String drinkInstructions;
     List <String> drinkIngredients;
+    Boolean isFav;
+
 
     // Strings to help parse ingredients
     String ingredient = "strIngredient";
@@ -29,7 +34,7 @@ public class Drink {
     int LEN_INGREDIENTS =15;
 
     // empty constructor needed by Parcelor Library
-    public Drink(){};
+    public Drink(){}
 
     public Drink(JSONObject jsonObject) throws JSONException {
         drinkID = jsonObject.getInt("idDrink");
@@ -65,31 +70,40 @@ public class Drink {
     }
 
     // getters to extract posterPath, title, and overview from Movie objects
-
+    // setters to set drinkID, setPosterPath, setDrinkName, setDrinkIBA, setDrinkCategory, setDrinkInstructions, setIngredients
     public int getDrinkID() { return drinkID; }
+    public void setDrinkID(int drinkID) { this.drinkID = drinkID; }
 
     public String getPosterPath() { return String.format(posterPath); }
+    public void setPosterPath(String posterPath) { this.posterPath = posterPath; }
 
     public String getDrinkName() {
         return drinkName;
     }
+    public void setDrinkName(String drinkName) { this.drinkName = drinkName; }
 
     public String getDrinkIBA() {
         return drinkIBA;
     }
+    public void setDrinkIBA(String drinkIBA) { this.drinkIBA = drinkIBA; }
 
     public String getDrinkCategory() {
         return drinkCategory;
     }
+    public void setDrinkCategory(String drinkCategory) { this.drinkCategory = drinkCategory; }
 
     public String getDrinkInstructions() {
         return drinkInstructions;
     }
+    public void setDrinkInstructions(String drinkInstructions) { this.drinkInstructions = drinkInstructions; }
 
-    public List<String> getIngredients() {
+    public List<String> getDrinkIngredients() {
         return drinkIngredients;
     }
+    public void setDrinkIngredients(List<String> drinkIngredients) { this.drinkIngredients = drinkIngredients; }
 
+    public Boolean getIsFav(){return isFav;}
+    public void setIsFav(boolean isFav){ this.isFav = isFav;}
 
 
 }

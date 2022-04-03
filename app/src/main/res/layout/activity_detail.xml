@@ -1,111 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".DetailActivity"
-    android:orientation="vertical"
-    android:background="@color/dark1">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <LinearLayout
+
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:visibility="visible"
-        app:titleTextColor="@android:color/white">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/dark1">
 
-        <ImageButton
-            android:id="@+id/icGram"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:src="@drawable/ic_favorite"
-            android:visibility="visible" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:visibility="visible"
+            app:titleTextColor="@android:color/white">
+
+
+            <com.like.LikeButton
+                android:id="@+id/icFavorite"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:anim_scale_factor="2"
+                app:circle_end_color="@color/teal_700"
+                app:circle_start_color="@color/gold"
+                app:dots_primary_color="@color/teal_700"
+                app:dots_secondary_color="@color/gold"
+                app:icon_size="20dp"
+                app:icon_type="Star"
+                app:is_enabled="true" />
+
+
+            <ImageView
+                android:id="@+id/icLogo"
+                android:layout_width="280dp"
+                android:layout_height="40dp"
+                android:scaleType="centerInside"
+                android:scaleX="4"
+                android:scaleY="4"
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_mixer" />
+
+
+            <ImageButton
+                android:id="@+id/ibLogOut"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/colorPrimary"
+                android:src="@drawable/ic_logout"
+                android:visibility="invisible" />
+
+
+        </androidx.appcompat.widget.Toolbar>
 
         <ImageView
-            android:id="@+id/icLogo"
-            android:layout_width="280dp"
-            android:layout_height="40dp"
-            android:scaleType="centerInside"
-            android:scaleX="3.5"
-            android:scaleY="3.5"
-            android:visibility="visible"
-            app:srcCompat="@drawable/ic_mixer" />
+            android:id="@+id/ivPoster"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginTop="5dp"
+            android:transitionName="activityTransition"
+            tools:srcCompat="@tools:sample/avatars"/>
 
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/dark1"
+            android:fontFamily="@font/aldrich"
+            android:textColor="@color/light1"
+            android:textSize="30sp"
+            tools:text="Drink1" />
 
-        <ImageButton
-            android:id="@+id/ibLogOut"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="?attr/colorPrimary"
-            android:src="@drawable/ic_logout"
-            android:visibility="visible" />
+        <TextView
+            android:id="@+id/tvAlcoholic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/dark1"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/light2"
+            android:visibility="gone"
+            tools:text="Alcoholic" />
 
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:background="@color/dark1"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/light2"
+            android:visibility="gone"
+            tools:text="Category" />
 
-    </androidx.appcompat.widget.Toolbar>
+        <TextView
+            android:id="@+id/tvInstructions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:background="@color/dark1"
+            android:fontFamily="@font/roboto_medium"
+            android:textColor="@color/light2"
+            android:textSize="16sp"
+            tools:text="Drink instructions" />
 
-    <ImageView
-        android:id="@+id/ivPoster"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginTop="5dp"
-        android:transitionName="activityTransition"
-        tools:srcCompat="@tools:sample/avatars"/>
+        <ListView
+            android:id="@+id/lvIngredients"
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:background="@color/dark1"
+            tools:text="Drink ingredients" />
 
-    <TextView
-        android:id="@+id/tvName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="@color/dark1"
-        android:fontFamily="@font/aldrich"
-        android:textColor="@color/light1"
-        android:textSize="30sp"
-        tools:text="Drink1" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvAlcoholic"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="@color/dark1"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/light2"
-        android:visibility="gone"
-        tools:text="Alcoholic" />
-
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:background="@color/dark1"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/light2"
-        android:visibility="gone"
-        tools:text="Category" />
-
-    <TextView
-        android:id="@+id/tvInstructions"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:background="@color/dark1"
-        android:fontFamily="@font/roboto_medium"
-        android:textColor="@color/light2"
-        android:textSize="16sp"
-        tools:text="Drink instructions" />
-
-    <ListView
-        android:id="@+id/lvIngredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/dark1"
-        tools:text="Drink ingredients" />
-
-
-
-</LinearLayout>
+</ScrollView>

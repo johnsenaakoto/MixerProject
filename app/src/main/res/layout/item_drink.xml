@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
@@ -62,5 +62,30 @@
         android:textColor="@color/light2"
         android:textSize="14sp"
         tools:text="Category" />
+
+    <LinearLayout
+        android:layout_width="25dp"
+        android:layout_height="26dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
+        android:orientation="horizontal">
+
+        <com.like.LikeButton
+            android:id="@+id/icFavorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            app:anim_scale_factor="2.5"
+            app:circle_end_color="@color/teal_700"
+            app:circle_start_color="@color/gold"
+            app:dots_primary_color="@color/teal_700"
+            app:dots_secondary_color="@color/gold"
+            app:icon_size="25dp"
+            app:icon_type="Star"
+            app:is_enabled="true" />
+
+    </LinearLayout>
 
 </RelativeLayout>
