@@ -65,8 +65,10 @@ dependencies {
     implementation "androidx.room:room-runtime:$roomVersion"
     annotationProcessor "androidx.room:room-compiler:$roomVersion"
 
+    // Dependency for Parse backend
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.18.5"
 
+    // Dependency for like button
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
 
 }
