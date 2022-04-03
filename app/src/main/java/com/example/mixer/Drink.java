@@ -2,6 +2,9 @@ package com.example.mixer;
 
 import android.util.Log;
 
+import com.like.LikeButton;
+import com.parse.ParseUser;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,7 +16,7 @@ import java.util.Set;
 
 
 @Parcel // To make Drink object parceable
-// Encapsulates what makes up a movie in the app
+// Encapsulates what makes up a Drink in the app
 public class Drink {
     int drinkID;
     String drinkName;
@@ -22,6 +25,8 @@ public class Drink {
     String posterPath;
     String drinkInstructions;
     List <String> drinkIngredients;
+    Boolean isFav;
+
 
     // Strings to help parse ingredients
     String ingredient = "strIngredient";
@@ -29,7 +34,7 @@ public class Drink {
     int LEN_INGREDIENTS =15;
 
     // empty constructor needed by Parcelor Library
-    public Drink(){};
+    public Drink(){}
 
     public Drink(JSONObject jsonObject) throws JSONException {
         drinkID = jsonObject.getInt("idDrink");
@@ -106,6 +111,8 @@ public class Drink {
     }
     public void setDrinkIngredients(List<String> drinkIngredients) { this.drinkIngredients = drinkIngredients; }
 
+    public Boolean getIsFav(){return isFav;}
+    public void setIsFav(boolean isFav){ this.isFav = isFav;}
 
 
 }

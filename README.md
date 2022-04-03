@@ -30,11 +30,12 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 
 **Required Must-have Stories**
 
-- [ ] User can log in and out using Parse authentication
-- [ ] User can sign up using Parse Authentication
+- [X] User can log in and out using Parse authentication
+- [X] User can sign up using Parse Authentication
 - [X] User can see a recyclerlist of popular cocktails (drink name, picture, overview) in main activity
 - [X] User can expose details of a cocktail in a separate activity (detail activity)
-- [ ] User can navigate between tabs (stream and favorites)
+- [X] User can navigate between tabs (stream and favorites)
+- [ ] Favorites are sent and strored to the user's account
 
 **Optional Nice-to-have Stories**
 
@@ -140,3 +141,19 @@ Here's a walkthrough of implemented user stories:
 <img src='walkthrough.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
+
+Favorite Button Copyright:
+
+Copyright 2016 Joel Dean
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.

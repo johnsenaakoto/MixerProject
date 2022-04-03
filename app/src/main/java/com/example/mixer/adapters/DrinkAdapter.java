@@ -19,9 +19,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.mixer.DetailActivity;
 import com.example.mixer.Drink;
+import com.example.mixer.Favorites;
 import com.example.mixer.LoginActivity;
 import com.example.mixer.MainActivity;
 import com.example.mixer.R;
+import com.example.mixer.fragments.HomeFragment;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
+import com.parse.DeleteCallback;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
@@ -30,6 +41,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
 public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
+    public static final String TAG = "DrinkAdapter";    // Create a tag for logging this activity
 
     Context context;
     List<Drink> drinks;
@@ -66,6 +78,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
         TextView tvCategory;
         ImageView ivPoster;
         RelativeLayout container;
+        LikeButton icFavorite;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -74,6 +87,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             tvCategory = itemView.findViewById(R.id.tvCategory);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             container = itemView.findViewById(R.id.container);
+            icFavorite = itemView.findViewById(R.id.icFavorite);
         }
 
         public void bind(Drink drink) {
@@ -86,7 +100,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             int radius = 30; // corner radius, higher value = more rounded
             int margin = 10; // crop margin, set to 0 for corners with no crop
             Glide.with(context).load(imageUrl).fitCenter().transform(new RoundedCornersTransformation(radius, margin)).into(ivPoster); // Binding an image is more complex, we use Glide
-
+            queryFav(drink.getDrinkID(),icFavorite);
             // Create an onClickListener on the drinks so that stuff can be done when it's clicked
             // 1. Register click listener on the whole row
             container.setOnClickListener(new View.OnClickListener() {
@@ -103,6 +117,85 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
 
                 }
             });
+            icFavorite.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    saveFav(ParseUser.getCurrentUser(),drink.getDrinkID());
+                }
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    unFav(drink.getDrinkID());
+                }
+            });
         }
+    }
+    // This method predetermines whether the button is like or not
+    private void queryFav(int drinkId, LikeButton icFavorite) {
+        ParseQuery<Favorites> query = ParseQuery.getQuery(Favorites.class);
+        query.include(Favorites.KEY_USER);
+        query.whereEqualTo(Favorites.KEY_USER, ParseUser.getCurrentUser());
+        query.addDescendingOrder(Favorites.KEY_CREATED_AT);
+
+        query.findInBackground(new FindCallback<Favorites>() {
+            @Override
+            public void done(List<Favorites> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issues with getting favorites", e);
+                    return;
+                }
+
+                for (Favorites favorites : objects) {
+                    Log.i(TAG, "drink id = " + drinkId + "favorite Id = " + favorites.getDrinkID());
+                    if (drinkId == favorites.getDrinkID()) {
+                        icFavorite.setLiked(true);
+                        break;
+                    } else {
+                        icFavorite.setLiked(false);
+                    }
+                }
+            }
+        });
+    }
+    private void saveFav(ParseUser currentUser, int drinkId){
+        Favorites fav = new Favorites();
+        fav.setUser(currentUser);
+        fav.setDrinkId(drinkId);
+        fav.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Issues with setting favorites", e);
+                    return;
+                }
+            }
+        });
+
+    }
+    private void unFav(int drinkId){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorites");
+        query.whereEqualTo("drinkID", drinkId);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                // if the error is null.
+                if (e == null) {
+                    // on below line we are getting the first cocktail and
+                    // calling a delete method to delete this cocktail.
+                    objects.get(0).deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            // inside done method checking if the error is null or not.
+                            if (e == null) {
+                                Toast.makeText(context, "Cocktail Deleted..", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(context, "Failed to delete cocktail..", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(context, "Failed to get the object..", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
