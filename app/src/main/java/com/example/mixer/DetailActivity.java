@@ -81,7 +81,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // Favorite icon
         //Check if drink is already a favorite and associate the like button accordingly.
-
         icFavorite.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
