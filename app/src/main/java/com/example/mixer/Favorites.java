@@ -16,8 +16,16 @@ public class Favorites extends ParseObject {
 
     // Getter and setter functions for username and user info
     public ParseUser getUser() { return getParseUser(KEY_USER); }
+    public void setUser(ParseUser user){
+        put(KEY_USER,user);
+    }
 
     // Getter and setter functions for drink ID
     public int getDrinkID() { return getInt(KEY_DRINK_ID); }
+    public void setDrinkId(int drinkId){
+        put(KEY_DRINK_ID,drinkId);
+    }
+
+
 
 }

@@ -18,6 +18,7 @@ import com.example.mixer.Drink;
 import com.example.mixer.Favorites;
 import com.example.mixer.R;
 import com.example.mixer.adapters.DrinkAdapter;
+import com.like.LikeButton;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -40,6 +41,7 @@ public class FavoritesFragment extends HomeFragment {
 
     public static final String DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
     public static final String TAG = "FavoritesFragment";    // Create a tag for logging this activity
+
 
     @Override
     protected void queryDrinks(DrinkAdapter drinkAdapter) {

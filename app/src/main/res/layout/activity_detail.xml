@@ -25,16 +25,20 @@
             android:visibility="visible"
             app:titleTextColor="@android:color/white">
 
-            <ImageButton
+
+            <com.like.LikeButton
                 android:id="@+id/icFavorite"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/ic_star"
-                app:tint="@color/light2"
-                android:scaleX="1.5"
-                android:scaleY="1.5"
-                android:visibility="visible"
-                android:background="?attr/colorPrimary"/>
+                app:anim_scale_factor="2"
+                app:circle_end_color="@color/teal_700"
+                app:circle_start_color="@color/gold"
+                app:dots_primary_color="@color/teal_700"
+                app:dots_secondary_color="@color/gold"
+                app:icon_size="20dp"
+                app:icon_type="Star"
+                app:is_enabled="true" />
+
 
             <ImageView
                 android:id="@+id/icLogo"
