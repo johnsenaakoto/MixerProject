@@ -113,7 +113,7 @@ public class DetailActivity extends AppCompatActivity {
                     Log.i(TAG, "drink id = " + drinkId + "favorite Id = " + favorites.getDrinkID());
                     if (drinkId == favorites.getDrinkID()) {
                         icFavorite.setLiked(true);
-                        break;
+                        return;
                     } else {
                         icFavorite.setLiked(false);
                     }
