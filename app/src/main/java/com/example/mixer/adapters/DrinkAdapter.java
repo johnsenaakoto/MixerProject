@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
 
     Context context;
     List<Drink> drinks;
+    int lastPosition = -1;
 
     public DrinkAdapter(Context context, List<Drink> drinks) {
         this.context = context;
@@ -62,8 +65,16 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the drink at the passed position
         Drink drink = drinks.get(position);
+
+        Log.d(TAG, "item position" + holder.getAdapterPosition());
+
+        Animation animation1 = AnimationUtils.loadAnimation(this.context, R.anim.fade_scale);
+        Animation animation2 = AnimationUtils.loadAnimation(this.context, R.anim.slide_in);
+        holder.itemView.startAnimation(animation1);
         // Bind the movie data into the VH
         holder.bind(drink);
+
+
     }
 
     @Override
@@ -186,7 +197,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                         public void done(ParseException e) {
                             // inside done method checking if the error is null or not.
                             if (e == null) {
-                                Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Cocktail Deleted..", Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
