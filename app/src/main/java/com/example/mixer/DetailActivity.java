@@ -151,6 +151,7 @@ public class DetailActivity extends AppCompatActivity {
                             // inside done method checking if the error is null or not.
                             if (e == null) {
                                 Toast.makeText(DetailActivity.this, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Toast.makeText(DetailActivity.this, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
