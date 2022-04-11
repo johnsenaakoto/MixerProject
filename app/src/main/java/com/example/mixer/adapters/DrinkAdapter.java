@@ -159,7 +159,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                     Log.i(TAG, "drink id = " + drinkId + "favorite Id = " + favorites.getDrinkID());
                     if (drinkId == favorites.getDrinkID()) {
                         icFavorite.setLiked(true);
-                        break;
+                        return;
                     } else {
                         icFavorite.setLiked(false);
                     }
@@ -200,7 +200,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                                 Toast.makeText(context, "Cocktail Deleted..", Toast.LENGTH_SHORT).show();
 
                             } else {
-                                Toast.makeText(context, "Failed to delete cocktail..", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });

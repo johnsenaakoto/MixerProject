@@ -35,15 +35,15 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 - [X] User can see a recyclerlist of popular cocktails (drink name, picture, overview) in main activity
 - [X] User can expose details of a cocktail in a separate activity (detail activity)
 - [X] User can navigate between tabs (stream and favorites)
-- [ ] Favorites are sent and strored to the user's account
+- [X] Favorites are sent and strored to the user's account
 
 **Optional Nice-to-have Stories**
 
-- [ ] User can delete drinks in favorite list
+- [X] User can delete drinks in favorite list
 - [ ] In MainActivity, user can click on random drink button to reveal cocktail of the day
 - [ ] User can create and post custom cocktails specific to their id
-- [ ] User can favorite drinks in mainactivity and detail activity
-- [ ] User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
+- [X] User can favorite drinks in mainactivity and detail activity
+- [X] User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 - [ ] App checks that user is of age before allowing them to sign up.
 
 ### 2. Screen Archetypes
