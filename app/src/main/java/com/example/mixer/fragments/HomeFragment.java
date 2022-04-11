@@ -19,6 +19,7 @@ import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.mixer.DetailActivity;
 import com.example.mixer.Drink;
+import com.example.mixer.EndlessRecyclerViewScrollListener;
 import com.example.mixer.Favorites;
 import com.example.mixer.R;
 import com.example.mixer.adapters.DrinkAdapter;
@@ -48,11 +49,12 @@ public class HomeFragment extends Fragment {
 
     public static final String RANDOM_DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/random.php"; // Create string to hold http for API request
     public static final String TAG = "HomeFragment";    // Create a tag for logging this activity
-    public static int COLD_START = 1;
+    public static int numDrinks = 20;
 
     private SwipeRefreshLayout swipeContainer;
     List<Drink> drinks = new ArrayList<>();
-    LikeButton icFavorite;
+    protected LikeButton icFavorite;
+    EndlessRecyclerViewScrollListener scrollListener;
 
 
     public HomeFragment() {
@@ -76,8 +78,6 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         icFavorite = view.findViewById(R.id.icFavorite);
-
-
         RecyclerView rvDrinks = view.findViewById(R.id.rvDrinks);
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
@@ -88,7 +88,10 @@ public class HomeFragment extends Fragment {
         rvDrinks.setAdapter(drinkAdapter);
 
         // Set a layout manager
-        rvDrinks.setLayoutManager(new LinearLayoutManager(getContext()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        rvDrinks.setLayoutManager(layoutManager);
+
+        // initial query for drinks
         queryDrinks(drinkAdapter);
 
         // Refresh screen when you swipe up
@@ -103,18 +106,29 @@ public class HomeFragment extends Fragment {
             public void onRefresh() {
                 Log.i(TAG, "fetching new data!");
                 drinks.clear();
-                drinkAdapter.notifyDataSetChanged();
                 queryDrinks(drinkAdapter);
                 Log.d(TAG, "Refresh start drinks are: " + String.valueOf(drinks));
                 swipeContainer.setRefreshing(false);
             }
         });
+
+        // TODO: Expand for infinite pagination
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Log.i(TAG, "onLoadMore:" + page);
+                queryDrinks(drinkAdapter);
+            }
+        };
+        //rvDrinks.addOnScrollListener(scrollListener);
     }
 
     protected void queryDrinks(DrinkAdapter drinkAdapter) {
-        for (int i = 0; i < 10; i++) {
-            // Instantiate an AsyncHttpClient to execute the API request
-            AsyncHttpClient client = new AsyncHttpClient();
+        // Instantiate an AsyncHttpClient to execute the API request
+        AsyncHttpClient client = new AsyncHttpClient();
+
+        for (int i = 0; i < numDrinks; i++) {
+            int counter = i; // counter for notifying drinksAdapter
 
             // Make a get request on the client object
             client.get(RANDOM_DRINK_URL, new JsonHttpResponseHandler() {
@@ -126,7 +140,7 @@ public class HomeFragment extends Fragment {
                         JSONArray result = jsonObject.getJSONArray("drinks");
                         Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
                         drinks.add(Drink.fromJsonArray(result));
-                        drinkAdapter.notifyDataSetChanged();
+                        drinkAdapter.notifyItemChanged(counter);
                         Log.i(TAG, "Drinks is: " + drinks);
                     } catch (JSONException e) {
                         Log.e(TAG, "Hit json exception", e); // handles the exception if results is not in the jsonObject
@@ -137,6 +151,7 @@ public class HomeFragment extends Fragment {
                     Log.d(TAG, "Failure: " + response);
                 }
             });
+            Log.i("Outside", "Outside: " + drinks.size());
         }
     }
 }
