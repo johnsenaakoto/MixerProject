@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
+import com.example.mixer.adapters.DrinkAdapter;
+import com.example.mixer.fragments.FavoritesFragment;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.DeleteCallback;
@@ -24,6 +26,7 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -40,13 +43,15 @@ public class DetailActivity extends AppCompatActivity {
     ImageView ivPoster;
     LikeButton icFavorite;
     int drinkId;
+    List<Favorites> favDrinks = new ArrayList<>();
+    private static int Key;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getSupportActionBar().hide();   // Hide Action bar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
         tvName = findViewById(R.id.tvName);
         tvAlcoholic = findViewById(R.id.tvAlcoholic);
         tvCategory = findViewById(R.id.tvCategory);
@@ -56,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
         icFavorite = findViewById(R.id.icFavorite);
 
         Drink drink = Parcels.unwrap(getIntent().getParcelableExtra("drink"));
+        Key = Parcels.unwrap(getIntent().getParcelableExtra("key"));
+        Log.i(TAG, "key = " + Key);
         tvName.setText(drink.getDrinkName());
         tvAlcoholic.setText(drink.getDrinkIBA());
         tvCategory.setText(drink.getDrinkCategory());
@@ -85,6 +92,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void liked(LikeButton likeButton) {
                 saveFav(ParseUser.getCurrentUser());
+                getFavs();
             }
             @Override
             public void unLiked(LikeButton likeButton) {
@@ -150,8 +158,7 @@ public class DetailActivity extends AppCompatActivity {
                         public void done(ParseException e) {
                             // inside done method checking if the error is null or not.
                             if (e == null) {
-                                Toast.makeText(DetailActivity.this, "Favorite Removed..", Toast.LENGTH_SHORT).show();
-
+//                                Toast.makeText(DetailActivity.this, "Favorite Removed..", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(DetailActivity.this, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
@@ -162,6 +169,37 @@ public class DetailActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void getFavs(){ // Updates the list of favorite drinks
+        favDrinks.clear();
+        Favorites fav = new Favorites();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorites");
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    for (int i = 0; i < objects.size(); i++) {
+                        fav.setUser(objects.get(i).getParseUser("user"));
+                        fav.setDrinkId(objects.get(i).getInt("drinkID"));
+                        favDrinks.add(fav);
+//                        Log.i(TAG, "Drink ID: " + fav.getDrinkID() + " User = " + fav.getUser() + " Fav = " + fav);
+                    }
+                } else {
+                    Toast.makeText(DetailActivity.this, "Failed to get the fav object..", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public List<Favorites> getFavDrinks() {
+        return favDrinks;
+    }
+
+    public static int getKey() {
+        return Key;
+    }
+    public static void setKey(int i){
+        Key = i;
     }
 }
 

@@ -73,8 +73,6 @@ public class FavoritesFragment extends HomeFragment {
                 }
 
                 for (Favorites favorites : objects) {
-                    //Counter
-                    // Make a get request on the client object
                     // Instantiate an AsyncHttpClient to execute the API request
                     AsyncHttpClient client = new AsyncHttpClient();
 
@@ -91,7 +89,6 @@ public class FavoritesFragment extends HomeFragment {
                                 JSONArray result = jsonObject.getJSONArray("drinks");
                                 Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
                                 drinks.add(Drink.fromJsonArray(result));
-                                drinkAdapter.notifyDataSetChanged();
 
                                 // sort drinks alphabetically
                                 Collections.sort(drinks, new Comparator<Drink>() {
@@ -100,6 +97,7 @@ public class FavoritesFragment extends HomeFragment {
                                         return drink.getDrinkName().compareToIgnoreCase(t1.getDrinkName());
                                     }
                                 });
+                                drinkAdapter.notifyDataSetChanged();
                                 Log.i(TAG, "Drinks is: " + drinks);
                             } catch (JSONException e) {
                                 Log.e(TAG, "Hit json exception", e); // handles the exception if results is not in the jsonObject
@@ -110,9 +108,9 @@ public class FavoritesFragment extends HomeFragment {
                             Log.d(TAG, "Failure: " + response);
                         }
                     });
+
                 }
             }
         });
     }
-
 }
