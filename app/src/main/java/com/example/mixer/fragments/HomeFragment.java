@@ -50,13 +50,21 @@ public class HomeFragment extends Fragment {
     public static final String TAG = "HomeFragment";    // Create a tag for logging this activity
     public static int COLD_START = 1;
 
+    private DrinkAdapter drinkAdapter;
+
     private SwipeRefreshLayout swipeContainer;
     List<Drink> drinks = new ArrayList<>();
-    LikeButton icFavorite;
-
 
     public HomeFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(DetailActivity.getKey() == 1){
+            getDrinkAdapter().notifyDataSetChanged();
+        }
     }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
@@ -75,14 +83,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        icFavorite = view.findViewById(R.id.icFavorite);
-
-
         RecyclerView rvDrinks = view.findViewById(R.id.rvDrinks);
         swipeContainer = view.findViewById(R.id.swipeContainer);
 
         // Create the adapter
         DrinkAdapter drinkAdapter = new DrinkAdapter(getContext(), drinks);
+        setDrinkAdapter(drinkAdapter);
 
         // Set the adapter o the recycler view
         rvDrinks.setAdapter(drinkAdapter);
@@ -138,5 +144,11 @@ public class HomeFragment extends Fragment {
                 }
             });
         }
+    }
+    public DrinkAdapter getDrinkAdapter(){
+        return drinkAdapter;
+    }
+    public void setDrinkAdapter(DrinkAdapter DA){
+        drinkAdapter = DA;
     }
 }
