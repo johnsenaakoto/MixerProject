@@ -5,7 +5,9 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.mixer.DetailActivity;
 import com.example.mixer.Drink;
 import com.example.mixer.Favorites;
 import com.example.mixer.R;
@@ -28,6 +31,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -42,6 +46,15 @@ public class FavoritesFragment extends HomeFragment {
     public static final String DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
     public static final String TAG = "FavoritesFragment";    // Create a tag for logging this activity
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(DetailActivity.getKey() == 2){
+            DetailActivity.setKey(0);
+            drinks.clear();
+            getDrinkAdapter().notifyDataSetChanged();
+            queryDrinks(getDrinkAdapter());        }
+    }
 
 
     @Override
@@ -60,8 +73,6 @@ public class FavoritesFragment extends HomeFragment {
                 }
 
                 for (Favorites favorites : objects) {
-                    //Counter
-                    // Make a get request on the client object
                     // Instantiate an AsyncHttpClient to execute the API request
                     AsyncHttpClient client = new AsyncHttpClient();
 
@@ -78,7 +89,6 @@ public class FavoritesFragment extends HomeFragment {
                                 JSONArray result = jsonObject.getJSONArray("drinks");
                                 Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
                                 drinks.add(Drink.fromJsonArray(result));
-                                drinkAdapter.notifyDataSetChanged();
 
                                 // sort drinks alphabetically
                                 Collections.sort(drinks, new Comparator<Drink>() {
@@ -87,6 +97,7 @@ public class FavoritesFragment extends HomeFragment {
                                         return drink.getDrinkName().compareToIgnoreCase(t1.getDrinkName());
                                     }
                                 });
+                                drinkAdapter.notifyDataSetChanged();
                                 Log.i(TAG, "Drinks is: " + drinks);
                             } catch (JSONException e) {
                                 Log.e(TAG, "Hit json exception", e); // handles the exception if results is not in the jsonObject
@@ -97,9 +108,9 @@ public class FavoritesFragment extends HomeFragment {
                             Log.d(TAG, "Failure: " + response);
                         }
                     });
+
                 }
             }
         });
     }
-
 }

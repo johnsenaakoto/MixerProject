@@ -58,10 +58,10 @@ public class Drink {
 
 
             // Parse ingredient and measurement from JSON
-            if (nullIngredient == "null" || nullIngredient.isEmpty()){
+            if (nullIngredient.equals("null") || nullIngredient.isEmpty()){
             }
             else {
-                if (nullMeasurement == "null"){
+                if (nullMeasurement.equals("null")){
                     String tempIngredient = jsonObject.getString(ingredientKey);
                     drinkIngredients.add(tempIngredient);
                 }

@@ -37,6 +37,7 @@ import okhttp3.Headers;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static int Key;
     final FragmentManager fragmentManager = getSupportFragmentManager();
     private BottomNavigationView bottomNavigationView;
     private ImageButton btnProfile;
@@ -60,13 +61,16 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
+                        setKey(1);
                         fragment = new HomeFragment();
                         break;
                     case R.id.action_favorites:
                     default:
+                        setKey(2);
                         fragment = new FavoritesFragment();
                         break;
                 }
+                Log.i(TAG, "Key = " + getKey());
                 fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
@@ -101,5 +105,11 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         this.getSupportFragmentManager().popBackStack();
+    }
+    public void setKey(int i){
+        Key = i;
+    }
+    public static int getKey(){
+        return Key;
     }
 }
