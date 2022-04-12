@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.room.Delete;
 
 import com.bumptech.glide.Glide;
 import com.example.mixer.DetailActivity;
@@ -24,7 +25,6 @@ import com.example.mixer.Favorites;
 import com.example.mixer.LoginActivity;
 import com.example.mixer.MainActivity;
 import com.example.mixer.R;
-import com.example.mixer.fragments.FavoritesFragment;
 import com.example.mixer.fragments.HomeFragment;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
@@ -38,7 +38,6 @@ import com.parse.SaveCallback;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -48,10 +47,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
 
     Context context;
     List<Drink> drinks;
-    DetailActivity detailActivity = new DetailActivity();
-
-
-
+    int lastPosition = -1;
 
     public DrinkAdapter(Context context, List<Drink> drinks) {
         this.context = context;
@@ -61,7 +57,6 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        detailActivity.getFavs();
         View drinkView = LayoutInflater.from(context).inflate(R.layout.item_drink, parent, false);
         return new ViewHolder(drinkView);
     }
@@ -70,8 +65,16 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the drink at the passed position
         Drink drink = drinks.get(position);
+
+        Log.d(TAG, "item position" + holder.getAdapterPosition());
+
+        Animation animation1 = AnimationUtils.loadAnimation(this.context, R.anim.fade_scale);
+        Animation animation2 = AnimationUtils.loadAnimation(this.context, R.anim.slide_in);
+        holder.itemView.startAnimation(animation1);
         // Bind the movie data into the VH
         holder.bind(drink);
+
+
     }
 
     @Override
@@ -98,7 +101,6 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             icFavorite = itemView.findViewById(R.id.icFavorite);
         }
 
-
         public void bind(Drink drink) {
             tvName.setText(drink.getDrinkName());
             tvAlcoholic.setText(drink.getDrinkIBA());
@@ -110,8 +112,6 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             int margin = 10; // crop margin, set to 0 for corners with no crop
             Glide.with(context).load(imageUrl).fitCenter().transform(new RoundedCornersTransformation(radius, margin)).into(ivPoster); // Binding an image is more complex, we use Glide
             queryFav(drink.getDrinkID(),icFavorite);
-            icFavorite.setLiked(isFav(ParseUser.getCurrentUser(),drink.getDrinkID()));
-
             // Create an onClickListener on the drinks so that stuff can be done when it's clicked
             // 1. Register click listener on the whole row
             container.setOnClickListener(new View.OnClickListener() {
@@ -123,9 +123,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                     Intent i = new Intent(context, DetailActivity.class);
                     ActivityOptionsCompat options = ActivityOptionsCompat.
                             makeSceneTransitionAnimation((Activity) context, ivPoster, "activityTransition");
-                    i.putExtra("drink", Parcels.wrap(drink)); // send entire drink class using Parcels to DetailActivity
-                    i.putExtra("key",Parcels.wrap(MainActivity.getKey())); // send the name of the current fragment to detail activity.
-
+                    i.putExtra("drink", Parcels.wrap(drink)); // send entire movie class using Parcels to DetailActivity
                     context.startActivity(i, options.toBundle());
 
                 }
@@ -134,16 +132,10 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                 @Override
                 public void liked(LikeButton likeButton) {
                     saveFav(ParseUser.getCurrentUser(),drink.getDrinkID());
-                    detailActivity.getFavs();
                 }
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     unFav(drink.getDrinkID());
-                    detailActivity.getFavs();
-                    if(MainActivity.getKey() == 2) {
-                        drinks.remove(getAdapterPosition());
-                        notifyDataSetChanged();
-                    }
                 }
             });
         }
@@ -164,7 +156,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                 }
 
                 for (Favorites favorites : objects) {
-//                    Log.i(TAG, "drink id = " + drinkId + "favorite Id = " + favorites.getDrinkID());
+                    Log.i(TAG, "drink id = " + drinkId + "favorite Id = " + favorites.getDrinkID());
                     if (drinkId == favorites.getDrinkID()) {
                         icFavorite.setLiked(true);
                         return;
@@ -205,7 +197,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                         public void done(ParseException e) {
                             // inside done method checking if the error is null or not.
                             if (e == null) {
-//                                Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Cocktail Deleted..", Toast.LENGTH_SHORT).show();
+
                             } else {
                                 Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
@@ -216,15 +209,5 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                 }
             }
         });
-    }
-    public boolean isFav(ParseUser user, int drinkID){ // Will return true if the drink is a favorite belonging to the user.
-        for(int i = 0; i < detailActivity.getFavDrinks().size(); i++){ // For all of the favorites
-            if(detailActivity.getFavDrinks().get(i).getUser() == user){ // If the current favorite belongs to the user
-                if (detailActivity.getFavDrinks().get(i).getDrinkID() == drinkID){ // if the drinkID of the favorite matches the input drinkID
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 }
