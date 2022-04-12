@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
     }
 
     protected void queryDrinks(DrinkAdapter drinkAdapter) {
-        for (int i = 0; i < numDrinks; i++) {
+        for (int i = 0; i < 10; i++) {
             // Instantiate an AsyncHttpClient to execute the API request
             AsyncHttpClient client = new AsyncHttpClient();
 
