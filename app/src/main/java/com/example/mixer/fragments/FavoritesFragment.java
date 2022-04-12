@@ -59,12 +59,11 @@ public class FavoritesFragment extends HomeFragment {
                     return;
                 }
 
-                for (Favorites favorites : objects) {
-                    //Counter
-                    // Make a get request on the client object
-                    // Instantiate an AsyncHttpClient to execute the API request
-                    AsyncHttpClient client = new AsyncHttpClient();
+                // Make a get request on the client object
+                // Instantiate an AsyncHttpClient to execute the API request
+                AsyncHttpClient client = new AsyncHttpClient();
 
+                for (Favorites favorites : objects) {
                     Log.i(TAG, ", username: " + favorites.getUser().getUsername() + ", id: " + favorites.getDrinkID());
                     String tempURL = DRINK_URL + favorites.getDrinkID();
 
