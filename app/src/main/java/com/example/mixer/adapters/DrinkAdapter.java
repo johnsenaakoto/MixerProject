@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -70,6 +72,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the drink at the passed position
         Drink drink = drinks.get(position);
+        Animation animation1 = AnimationUtils.loadAnimation(this.context, R.anim.fade_in);
+        holder.itemView.startAnimation(animation1);
         // Bind the movie data into the VH
         holder.bind(drink);
     }

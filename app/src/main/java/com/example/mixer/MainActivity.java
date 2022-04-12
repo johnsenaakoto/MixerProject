@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton btnProfile;
     private Button btnLogout;
     private int LogOutVisibility = 0;
+    public int favoriteCheck = 0;
     public static final String TAG = "MainActivity";    // Create a tag for logging this activity
 
     @Override
@@ -61,17 +62,34 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment;
                 switch (menuItem.getItemId()) {
                     case R.id.action_home:
-                        setKey(1);
-                        fragment = new HomeFragment();
+
+                        if (fragmentManager.findFragmentByTag("home") != null) {
+                            // if homeFragment exists, show it
+                            setKey(1);
+                            fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("home")).commit();
+                        }
+                        else {
+                            // if homeFragment does not exist, add it to fragment manager
+                            setKey(1);
+                            fragmentManager.beginTransaction().add(R.id.flContainer, new HomeFragment(), "home").commit();
+                        }
+                        if (fragmentManager.findFragmentByTag("favorites") != null) {
+                            // if the favorites fragment is visible, hide it
+                            fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("favorites")).commit();
+                            fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("home")).commit();
+                            favoriteCheck =0;
+                        }
                         break;
                     case R.id.action_favorites:
-                    default:
-                        setKey(2);
-                        fragment = new FavoritesFragment();
+                        if (favoriteCheck == 0){
+                            setKey(2);
+                            fragmentManager.beginTransaction().add(R.id.flContainer, new FavoritesFragment(), "favorites").commit();
+                            favoriteCheck = 1;
+                        }
                         break;
                 }
                 Log.i(TAG, "Key = " + getKey());
-                fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
+                //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
