@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
 
     public static final String RANDOM_DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/random.php"; // Create string to hold http for API request
     public static final String TAG = "HomeFragment";    // Create a tag for logging this activity
-    public static int COLD_START = 1;
+    public static int numDrinks = 15;
 
     private DrinkAdapter drinkAdapter;
 
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
     }
 
     protected void queryDrinks(DrinkAdapter drinkAdapter) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < numDrinks; i++) {
             // Instantiate an AsyncHttpClient to execute the API request
             AsyncHttpClient client = new AsyncHttpClient();
 
