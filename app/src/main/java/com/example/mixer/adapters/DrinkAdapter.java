@@ -72,8 +72,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         // Get the drink at the passed position
         Drink drink = drinks.get(position);
-        Animation animation1 = AnimationUtils.loadAnimation(this.context, R.anim.fade_scale);
-        Animation animation2 = AnimationUtils.loadAnimation(this.context, R.anim.slide_in);
+        Animation animation1 = AnimationUtils.loadAnimation(this.context, R.anim.fade_in);
         holder.itemView.startAnimation(animation1);
         // Bind the movie data into the VH
         holder.bind(drink);
