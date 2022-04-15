@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.example.mixer.DetailActivity;
 import com.example.mixer.Drink;
 import com.example.mixer.Favorites;
 import com.example.mixer.MainActivity;
@@ -52,6 +53,17 @@ public class SearchFragment extends HomeFragment {
     public static final String DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=";
     public static final String INGREDIENT_DRINKS_URL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=";
     public static final String TAG = "SearchFragment";    // Create a tag for logging this activity
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(DetailActivity.getKey() == 3){
+            DetailActivity.setKey(0);
+            getDrinkAdapter().notifyDataSetChanged();
+            }
+    }
+
+
     ListView lvSearch;
     RecyclerView rvDrinks;
     List<String> ingredients;
