@@ -98,18 +98,26 @@ public class MainActivity extends AppCompatActivity {
                             fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("favorites")).commit();
 
                             if (fragmentManager.findFragmentByTag("search") != null) {
+                                // if searchFragment exists, show it
+                                setKey(3);
                                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("search")).commit();
                             }
                             else {
+                                // if searchFragment does not exist add it to fragmentManager
+                                setKey(3);
                                 fragmentManager.beginTransaction().add(R.id.flContainer, new SearchFragment(), "search").commit();
                             }
                             favoriteCheck =0;
                         }
                         else {
                             if (fragmentManager.findFragmentByTag("search") != null) {
+                                // if searchFragment exists, show it
+                                setKey(3);
                                 fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("search")).commit();
                             }
                             else {
+                                // if searchFragment exists, show it
+                                setKey(3);
                                 fragmentManager.beginTransaction().add(R.id.flContainer, new SearchFragment(), "search").commit();
                             }
                         }

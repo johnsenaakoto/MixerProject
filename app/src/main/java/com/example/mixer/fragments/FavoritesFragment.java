@@ -49,9 +49,9 @@ public class FavoritesFragment extends HomeFragment {
     @Override
     public void onStart() {
         super.onStart();
+        drinks.clear();
         if(DetailActivity.getKey() == 2){
             DetailActivity.setKey(0);
-            drinks.clear();
             getDrinkAdapter().notifyDataSetChanged();
             queryDrinks(getDrinkAdapter(), "none");        }
     }
