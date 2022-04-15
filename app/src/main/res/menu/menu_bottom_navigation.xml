@@ -12,5 +12,10 @@
         android:icon="@drawable/favorite_test"
         android:title="Favorites"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/search_test"
+        android:title="Search"
+        app:showAsAction="always" />
 
 </menu>

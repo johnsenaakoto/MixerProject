@@ -23,6 +23,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.example.mixer.adapters.DrinkAdapter;
 import com.example.mixer.fragments.FavoritesFragment;
 import com.example.mixer.fragments.HomeFragment;
+import com.example.mixer.fragments.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -79,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
                             fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("home")).commit();
                             favoriteCheck =0;
                         }
+                        if(fragmentManager.findFragmentByTag("search") != null) {
+                            // if the search fragment is visible, hide it
+                            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("search")).commit();
+                        }
                         break;
                     case R.id.action_favorites:
                         if (favoriteCheck == 0){
@@ -87,9 +92,34 @@ public class MainActivity extends AppCompatActivity {
                             favoriteCheck = 1;
                         }
                         break;
+                    case R.id.action_search:
+                        if (fragmentManager.findFragmentByTag("favorites") != null) {
+                            // if the favorites fragment is visible, remove favorites and show search
+                            fragmentManager.beginTransaction().remove(fragmentManager.findFragmentByTag("favorites")).commit();
+
+                            if (fragmentManager.findFragmentByTag("search") != null) {
+                                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("search")).commit();
+                            }
+                            else {
+                                fragmentManager.beginTransaction().add(R.id.flContainer, new SearchFragment(), "search").commit();
+                            }
+                            favoriteCheck =0;
+                        }
+                        else {
+                            if (fragmentManager.findFragmentByTag("search") != null) {
+                                fragmentManager.beginTransaction().show(fragmentManager.findFragmentByTag("search")).commit();
+                            }
+                            else {
+                                fragmentManager.beginTransaction().add(R.id.flContainer, new SearchFragment(), "search").commit();
+                            }
+                        }
+                        if(fragmentManager.findFragmentByTag("home") != null) {
+                            // if the search fragment is visible, hide it
+                            fragmentManager.beginTransaction().hide(fragmentManager.findFragmentByTag("home")).commit();
+                        }
+                        break;
                 }
                 Log.i(TAG, "Key = " + getKey());
-                //fragmentManager.beginTransaction().replace(R.id.flContainer, fragment).commit();
                 return true;
             }
         });
