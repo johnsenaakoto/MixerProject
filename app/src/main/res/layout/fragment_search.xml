@@ -21,8 +21,21 @@
         android:queryHint="Search cocktails by ingredients"
         android:submitBackground="@drawable/bg_white_rounded" />
 
-    <ListView
+    <TextView
+        android:id="@+id/tvSearchResults"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/search_bar"
+        android:layout_marginBottom="5dp"
+        android:layout_marginStart="10dp"
+        android:fontFamily="@font/roboto_medium"
+        android:gravity="start"
+        android:textColor="@color/light2"
+        android:textSize="14sp"
+        android:visibility="gone" />
+
+    <ListView
+        android:layout_below="@+id/tvSearchResults"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:id="@+id/lvSearch" />

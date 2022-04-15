@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.codepath.asynchttpclient.AsyncHttpClient;
@@ -67,6 +68,7 @@ public class SearchFragment extends HomeFragment {
     ListView lvSearch;
     RecyclerView rvDrinks;
     List<String> ingredients;
+    TextView tvSearchResults;
     public static String selectedIngredient;
     ArrayAdapter<String> arrayAdapter;
 
@@ -93,6 +95,7 @@ public class SearchFragment extends HomeFragment {
 
         lvSearch = view.findViewById(R.id.lvSearch);
         rvDrinks = view.findViewById(R.id.rvDrinks);
+        tvSearchResults = view.findViewById(R.id.tvSearchResults);
 
         // create arrayAdapter for lvSearch
         arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.search_list_layout, ingredients);
@@ -105,6 +108,8 @@ public class SearchFragment extends HomeFragment {
             @Override
             public boolean onQueryTextSubmit(String queryIngredient) {
                 lvSearch.setVisibility(View.GONE);
+                tvSearchResults.setText("Search results for " + queryIngredient);
+                tvSearchResults.setVisibility(View.VISIBLE);
                 drinks.clear();
                 queryIDs(queryIngredient);
                 return false;
@@ -112,6 +117,7 @@ public class SearchFragment extends HomeFragment {
 
             @Override
             public boolean onQueryTextChange(String query) {
+                tvSearchResults.setVisibility(View.GONE);
                 lvSearch.setVisibility(View.VISIBLE);
                 arrayAdapter.getFilter().filter(query);
                 return false;
@@ -130,6 +136,8 @@ public class SearchFragment extends HomeFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 hideKeyboard(getContext());
                 selectedIngredient = (lvSearch.getItemAtPosition(i).toString());
+                tvSearchResults.setText("Search results for " + selectedIngredient);
+                tvSearchResults.setVisibility(View.VISIBLE);
                 lvSearch.setVisibility(View.GONE);
                 queryIDs(selectedIngredient);
             }
