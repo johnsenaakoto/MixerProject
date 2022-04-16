@@ -49,16 +49,16 @@ public class FavoritesFragment extends HomeFragment {
     @Override
     public void onStart() {
         super.onStart();
+        drinks.clear();
         if(DetailActivity.getKey() == 2){
             DetailActivity.setKey(0);
-            drinks.clear();
             getDrinkAdapter().notifyDataSetChanged();
-            queryDrinks(getDrinkAdapter());        }
+            queryDrinks(getDrinkAdapter(), "none");        }
     }
 
 
     @Override
-    protected void queryDrinks(DrinkAdapter drinkAdapter) {
+    protected void queryDrinks(DrinkAdapter drinkAdapter, String Placeholder) {
         ParseQuery<Favorites> query = ParseQuery.getQuery(Favorites.class);
         query.include(Favorites.KEY_USER);
         query.whereEqualTo(Favorites.KEY_USER, ParseUser.getCurrentUser());
