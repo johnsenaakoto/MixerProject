@@ -48,7 +48,7 @@ public class HomeFragment extends Fragment {
 
     public static final String RANDOM_DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/random.php"; // Create string to hold http for API request
     public static final String TAG = "HomeFragment";    // Create a tag for logging this activity
-    public static int numDrinks = 25;
+    public static int numDrinks = 15;
 
     private DrinkAdapter drinkAdapter;
 
@@ -95,7 +95,7 @@ public class HomeFragment extends Fragment {
 
         // Set a layout manager
         rvDrinks.setLayoutManager(new LinearLayoutManager(getContext()));
-        queryDrinks(drinkAdapter);
+        queryDrinks(drinkAdapter, "none");
 
         // Refresh screen when you swipe up
         // Configure the refreshing colors
@@ -110,14 +110,14 @@ public class HomeFragment extends Fragment {
                 Log.i(TAG, "fetching new data!");
                 drinks.clear();
                 drinkAdapter.notifyDataSetChanged();
-                queryDrinks(drinkAdapter);
+                queryDrinks(drinkAdapter, "none");
                 Log.d(TAG, "Refresh start drinks are: " + String.valueOf(drinks));
                 swipeContainer.setRefreshing(false);
             }
         });
     }
 
-    protected void queryDrinks(DrinkAdapter drinkAdapter) {
+    protected void queryDrinks(DrinkAdapter drinkAdapter, String Placeholder) {
         for (int i = 0; i < numDrinks; i++) {
             // Instantiate an AsyncHttpClient to execute the API request
             AsyncHttpClient client = new AsyncHttpClient();

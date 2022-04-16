@@ -14,16 +14,24 @@
         <entry key="..\:/Users/karld/AndroidStudioProjects/AndroidUProject/app/src/main/res/menu/menu_bottom_navigation.xml" value="0.2203125" />
         <entry key="..\:/Users/karld/AndroidStudioProjects/AndroidUProject/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.2245" />
         <entry key="app/src/main/res/drawable-anydpi/ic_home_filled.xml" value="0.31145833333333334" />
+        <entry key="app/src/main/res/drawable/bg_white_rounded.xml" value="0.162" />
         <entry key="app/src/main/res/drawable/favorite_test.xml" value="0.16927083333333334" />
         <entry key="app/src/main/res/drawable/home_test.xml" value="0.16927083333333334" />
+        <entry key="app/src/main/res/drawable/ic_search_filled.xml" value="0.203" />
+        <entry key="app/src/main/res/drawable/ic_search_outline.xml" value="0.203" />
+        <entry key="app/src/main/res/drawable/search_test.xml" value="0.203" />
         <entry key="app/src/main/res/layout/activity_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.15833333333333333" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_favorites.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2953125" />
+        <entry key="app/src/main/res/layout/fragment_search.xml" value="0.25" />
         <entry key="app/src/main/res/layout/item_drink.xml" value="0.335" />
         <entry key="app/src/main/res/layout/list_layout.xml" value="0.16770833333333332" />
+        <entry key="app/src/main/res/layout/my_list.xml" value="0.30512820512820515" />
+        <entry key="app/src/main/res/layout/search_list_layout.xml" value="0.30512820512820515" />
         <entry key="app/src/main/res/menu/menu_bottom_navigation.xml" value="0.335" />
+        <entry key="app/src/main/res/menu/menu_search_bar.xml" value="0.375" />
         <entry key="app/src/main/res/xml/list_view_1.xml" value="0.16770833333333332" />
       </map>
     </option>
