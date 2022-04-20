@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
 
     private DrinkAdapter drinkAdapter;
 
-    private SwipeRefreshLayout swipeContainer;
+    public SwipeRefreshLayout swipeContainer;
     List<Drink> drinks = new ArrayList<>();
 
     public HomeFragment() {

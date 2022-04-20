@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,6 +62,7 @@ public class SearchFragment extends HomeFragment {
         if(DetailActivity.getKey() == 3){
             DetailActivity.setKey(0);
             getDrinkAdapter().notifyDataSetChanged();
+            searchView.clearFocus();
             }
     }
 
@@ -71,6 +73,7 @@ public class SearchFragment extends HomeFragment {
     TextView tvSearchResults;
     public static String selectedIngredient;
     ArrayAdapter<String> arrayAdapter;
+    SearchView searchView;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -102,7 +105,7 @@ public class SearchFragment extends HomeFragment {
         queryForIngredients(arrayAdapter, lvSearch);
 
         // Create searchview and filter
-        SearchView searchView = view.findViewById(R.id.search_bar);
+        searchView = view.findViewById(R.id.search_bar);
         // search view for search list
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -140,6 +143,12 @@ public class SearchFragment extends HomeFragment {
                 tvSearchResults.setVisibility(View.VISIBLE);
                 lvSearch.setVisibility(View.GONE);
                 queryIDs(selectedIngredient);
+            }
+        });
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeContainer.setRefreshing(false);
             }
         });
     }
