@@ -76,18 +76,18 @@ public class FavoritesFragment extends HomeFragment {
                     // Instantiate an AsyncHttpClient to execute the API request
                     AsyncHttpClient client = new AsyncHttpClient();
 
-                    Log.i(TAG, ", username: " + favorites.getUser().getUsername() + ", id: " + favorites.getDrinkID());
+                    //Log.i(TAG, ", username: " + favorites.getUser().getUsername() + ", id: " + favorites.getDrinkID());
                     String tempURL = DRINK_URL + favorites.getDrinkID();
 
                     // Make a get request on the client object
                     client.get(tempURL , new JsonHttpResponseHandler() {
                         @Override
                         public void onSuccess(int statusCode, Headers headers, JSON json) {
-                            Log.d(TAG, "Success"); // log for success, connected to TAG
+                            //Log.d(TAG, "Success"); // log for success, connected to TAG
                             JSONObject jsonObject = json.jsonObject; // we store the response jsonObject in the variable jsonObject
                             try {
                                 JSONArray result = jsonObject.getJSONArray("drinks");
-                                Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
+                                //Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
                                 drinks.add(Drink.fromJsonArray(result));
 
                                 // sort drinks alphabetically
@@ -98,7 +98,7 @@ public class FavoritesFragment extends HomeFragment {
                                     }
                                 });
                                 drinkAdapter.notifyDataSetChanged();
-                                Log.i(TAG, "Drinks is: " + drinks);
+                                //Log.i(TAG, "Drinks is: " + drinks);
                             } catch (JSONException e) {
                                 Log.e(TAG, "Hit json exception", e); // handles the exception if results is not in the jsonObject
                             }
