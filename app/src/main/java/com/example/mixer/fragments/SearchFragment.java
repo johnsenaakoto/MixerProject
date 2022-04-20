@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -99,6 +100,7 @@ public class SearchFragment extends HomeFragment {
         lvSearch = view.findViewById(R.id.lvSearch);
         rvDrinks = view.findViewById(R.id.rvDrinks);
         tvSearchResults = view.findViewById(R.id.tvSearchResults);
+        swipeContainer = view.findViewById(R.id.swipeContainer);
 
         // create arrayAdapter for lvSearch
         arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.search_list_layout, ingredients);
@@ -106,6 +108,7 @@ public class SearchFragment extends HomeFragment {
 
         // Create searchview and filter
         searchView = view.findViewById(R.id.search_bar);
+      
         // search view for search list
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -118,14 +121,8 @@ public class SearchFragment extends HomeFragment {
                 return false;
             }
 
-            @Override
-            public boolean onQueryTextChange(String query) {
-                tvSearchResults.setVisibility(View.GONE);
-                lvSearch.setVisibility(View.VISIBLE);
-                arrayAdapter.getFilter().filter(query);
-                return false;
-            }
-        });
+        // search view for search list
+        querySearchView(searchView);
 
         // Set the adapter to the recycler view
         rvDrinks.setAdapter(getDrinkAdapter());
@@ -137,7 +134,7 @@ public class SearchFragment extends HomeFragment {
         lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                hideKeyboard(getContext());
+                searchView.clearFocus();
                 selectedIngredient = (lvSearch.getItemAtPosition(i).toString());
                 tvSearchResults.setText("Search results for " + selectedIngredient);
                 tvSearchResults.setVisibility(View.VISIBLE);
@@ -145,6 +142,11 @@ public class SearchFragment extends HomeFragment {
                 queryIDs(selectedIngredient);
             }
         });
+
+        // Takes focus from searchView when list view or recycler view is touched
+        clearSearchView(searchView);
+
+        // Refresh screen set to false when you swipe up
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -153,20 +155,51 @@ public class SearchFragment extends HomeFragment {
         });
     }
 
-
-    public static void hideKeyboard( Context context ) {
-
-        try {
-            InputMethodManager inputManager = ( InputMethodManager ) context.getSystemService( Context.INPUT_METHOD_SERVICE );
-
-            View view = ( (Activity) context ).getCurrentFocus();
-            if ( view != null ) {
-                inputManager.hideSoftInputFromWindow( view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS );
+    private void clearSearchView(SearchView searchView) {
+        // clears searchView when the list view of top ingredients is touched
+        lvSearch.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                searchView.clearFocus();
             }
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+            }
+        });
+
+        // clears searchView when the recycler view of top ingredients is touched
+        rvDrinks.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                searchView.clearFocus();
+            }
+        });
     }
+
+    private void querySearchView(SearchView searchView) {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String queryIngredient) {
+                drinks.clear();
+                lvSearch.setVisibility(View.GONE);
+                queryIDs(queryIngredient);
+                tvSearchResults.setText("Search results for " + queryIngredient);
+                tvSearchResults.setVisibility(View.VISIBLE);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                tvSearchResults.setVisibility(View.GONE);
+                lvSearch.setVisibility(View.VISIBLE);
+                arrayAdapter.getFilter().filter(query);
+                return false;
+            }
+        });
+    }
+
 
 
     // Get drink IDs of selectedIngredient
@@ -178,17 +211,16 @@ public class SearchFragment extends HomeFragment {
         client.get(tempURL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "Success"); // log for success, connected to TAG
+                //Log.d(TAG, "Success"); // log for success, connected to TAG
                 JSONObject jsonObject = json.jsonObject; // we store the response jsonObject in the variable jsonObject
                 try {
                     JSONArray results = jsonObject.getJSONArray("drinks"); // we store the results array into new variable results. This results array is extracted from the jsonObject by using the getJSONArray method
-
                     drinks.clear(); // Clear drinks before entering for loop
 
                     // for loop populates search RV
                     for (int i=0; i < results.length(); i++) {
                         String tempResult = (results.getJSONObject(i)).getString("idDrink");
-                        Log.d(TAG, selectedIngredient + " drinkID: " + tempResult);
+                        //Log.d(TAG, selectedIngredient + " drinkID: " + tempResult);
 
                         // Query drink by ID and populate RV
                         queryDrinks(getDrinkAdapter(), tempResult);
@@ -218,15 +250,13 @@ public class SearchFragment extends HomeFragment {
         client.get(tempURL , new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "Success"); // log for success, connected to TAG
+                //Log.d(TAG, "Success"); // log for success, connected to TAG
                 JSONObject jsonObject = json.jsonObject; // we store the response jsonObject in the variable jsonObject
                 try {
                     JSONArray result = jsonObject.getJSONArray("drinks");
-                    Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
+                    //Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
                     drinks.add(Drink.fromJsonArray(result));
-
                     drinkAdapter.notifyDataSetChanged();
-                    Log.i(TAG, "Drinks is: " + drinks);
                 } catch (JSONException e) {
                     Log.e(TAG, "Hit json exception", e); // handles the exception if results is not in the jsonObject
                 }
@@ -246,14 +276,14 @@ public class SearchFragment extends HomeFragment {
         client.get(INGREDIENTS_URL, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
-                Log.d(TAG, "Success"); // log for success, connected to TAG
+                //Log.d(TAG, "Success"); // log for success, connected to TAG
                 JSONObject jsonObject = json.jsonObject; // we store the response jsonObject in the variable jsonObject
                 try {
                     JSONArray results = jsonObject.getJSONArray("drinks"); // we store the results array into new variable results. This results array is extracted from the jsonObject by using the getJSONArray method
                     for (int i=0; i < results.length(); i++) {
                         String tempResult = (results.getJSONObject(i)).getString("strIngredient1");
                         ingredients.add(tempResult);
-                        Log.d(TAG, "Ingredient: " + tempResult);
+                        //Log.d(TAG, "Ingredient: " + tempResult);
                     }
                     // Add ingredients to searhlist
                     lvSearch.setAdapter(arrayAdapter);

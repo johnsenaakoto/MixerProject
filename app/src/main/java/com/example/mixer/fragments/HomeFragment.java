@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,7 +54,7 @@ public class HomeFragment extends Fragment {
 
     private DrinkAdapter drinkAdapter;
 
-    public SwipeRefreshLayout swipeContainer;
+    protected SwipeRefreshLayout swipeContainer;
     List<Drink> drinks = new ArrayList<>();
 
     public HomeFragment() {
@@ -97,6 +99,7 @@ public class HomeFragment extends Fragment {
         rvDrinks.setLayoutManager(new LinearLayoutManager(getContext()));
         queryDrinks(drinkAdapter, "none");
 
+
         // Refresh screen when you swipe up
         // Configure the refreshing colors
         swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -107,11 +110,10 @@ public class HomeFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                Log.i(TAG, "fetching new data!");
+                //Log.i(TAG, "fetching new data!");
                 drinks.clear();
                 drinkAdapter.notifyDataSetChanged();
                 queryDrinks(drinkAdapter, "none");
-                Log.d(TAG, "Refresh start drinks are: " + String.valueOf(drinks));
                 swipeContainer.setRefreshing(false);
             }
         });
@@ -126,14 +128,15 @@ public class HomeFragment extends Fragment {
             client.get(RANDOM_DRINK_URL, new JsonHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Headers headers, JSON json) {
-                    Log.d(TAG, "Success"); // log for success, connected to TAG
+                    //Log.d(TAG, "Success"); // log for success, connected to TAG
                     JSONObject jsonObject = json.jsonObject; // we store the response jsonObject in the variable jsonObject
                     try {
                         JSONArray result = jsonObject.getJSONArray("drinks");
-                        Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
+                        //Log.i(TAG, "Results: " + result.toString()); //logs onSuccess and shows what is in results
                         drinks.add(Drink.fromJsonArray(result));
                         drinkAdapter.notifyDataSetChanged();
-                        Log.i(TAG, "Drinks is: " + drinks);
+                        Log.d(TAG, "In Drinks length: " + drinks.size());
+                        //Log.i(TAG, "Drinks is: " + drinks);
                     } catch (JSONException e) {
                         Log.e(TAG, "Hit json exception", e); // handles the exception if results is not in the jsonObject
                     }
@@ -143,7 +146,9 @@ public class HomeFragment extends Fragment {
                     Log.d(TAG, "Failure: " + response);
                 }
             });
+
         }
+        Log.d(TAG, "Out Drinks length: " + drinks.size());
     }
     public DrinkAdapter getDrinkAdapter(){
         return drinkAdapter;
