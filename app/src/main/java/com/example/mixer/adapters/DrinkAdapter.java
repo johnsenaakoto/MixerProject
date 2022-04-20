@@ -28,6 +28,7 @@ import com.example.mixer.MainActivity;
 import com.example.mixer.R;
 import com.example.mixer.fragments.FavoritesFragment;
 import com.example.mixer.fragments.HomeFragment;
+import com.google.android.material.snackbar.Snackbar;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.DeleteCallback;
@@ -45,14 +46,12 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
-public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
+public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> {
     public static final String TAG = "DrinkAdapter";    // Create a tag for logging this activity
 
     Context context;
     List<Drink> drinks;
     DetailActivity detailActivity = new DetailActivity();
-
-
 
 
     public DrinkAdapter(Context context, List<Drink> drinks) {
@@ -113,8 +112,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             int radius = 30; // corner radius, higher value = more rounded
             int margin = 10; // crop margin, set to 0 for corners with no crop
             Glide.with(context).load(imageUrl).fitCenter().transform(new RoundedCornersTransformation(radius, margin)).into(ivPoster); // Binding an image is more complex, we use Glide
-            queryFav(drink.getDrinkID(),icFavorite);
-            icFavorite.setLiked(isFav(ParseUser.getCurrentUser(),drink.getDrinkID()));
+            queryFav(drink.getDrinkID(), icFavorite);
+            icFavorite.setLiked(isFav(ParseUser.getCurrentUser(), drink.getDrinkID()));
 
             // Create an onClickListener on the drinks so that stuff can be done when it's clicked
             // 1. Register click listener on the whole row
@@ -128,7 +127,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                     ActivityOptionsCompat options = ActivityOptionsCompat.
                             makeSceneTransitionAnimation((Activity) context, ivPoster, "activityTransition");
                     i.putExtra("drink", Parcels.wrap(drink)); // send entire drink class using Parcels to DetailActivity
-                    i.putExtra("key",Parcels.wrap(MainActivity.getKey())); // send the name of the current fragment to detail activity.
+                    i.putExtra("key", Parcels.wrap(MainActivity.getKey())); // send the name of the current fragment to detail activity.
 
                     context.startActivity(i, options.toBundle());
 
@@ -137,14 +136,15 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             icFavorite.setOnLikeListener(new OnLikeListener() {
                 @Override
                 public void liked(LikeButton likeButton) {
-                    saveFav(ParseUser.getCurrentUser(),drink.getDrinkID());
+                    saveFav(ParseUser.getCurrentUser(), drink.getDrinkID());
                     detailActivity.getFavs();
                 }
+
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     unFav(drink.getDrinkID());
                     detailActivity.getFavs();
-                    if(MainActivity.getKey() == 2) {
+                    if (MainActivity.getKey() == 2) {
                         drinks.remove(getAdapterPosition());
                         notifyDataSetChanged();
                     }
@@ -152,6 +152,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             });
         }
     }
+
     // This method predetermines whether the button is like or not
     private void queryFav(int drinkId, LikeButton icFavorite) {
         ParseQuery<Favorites> query = ParseQuery.getQuery(Favorites.class);
@@ -179,7 +180,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             }
         });
     }
-    private void saveFav(ParseUser currentUser, int drinkId){
+
+    private void saveFav(ParseUser currentUser, int drinkId) {
         Favorites fav = new Favorites();
         fav.setUser(currentUser);
         fav.setDrinkId(drinkId);
@@ -194,7 +196,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
         });
 
     }
-    private void unFav(int drinkId){
+
+    private void unFav(int drinkId) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorites");
         query.whereEqualTo("drinkID", drinkId);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -209,7 +212,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
                         public void done(ParseException e) {
                             // inside done method checking if the error is null or not.
                             if (e == null) {
-//                                Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
                             } else {
                                 Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
@@ -221,10 +224,11 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder>{
             }
         });
     }
-    public boolean isFav(ParseUser user, int drinkID){ // Will return true if the drink is a favorite belonging to the user.
-        for(int i = 0; i < detailActivity.getFavDrinks().size(); i++){ // For all of the favorites
-            if(detailActivity.getFavDrinks().get(i).getUser() == user){ // If the current favorite belongs to the user
-                if (detailActivity.getFavDrinks().get(i).getDrinkID() == drinkID){ // if the drinkID of the favorite matches the input drinkID
+
+    public boolean isFav(ParseUser user, int drinkID) { // Will return true if the drink is a favorite belonging to the user.
+        for (int i = 0; i < detailActivity.getFavDrinks().size(); i++) { // For all of the favorites
+            if (detailActivity.getFavDrinks().get(i).getUser() == user) { // If the current favorite belongs to the user
+                if (detailActivity.getFavDrinks().get(i).getDrinkID() == drinkID) { // if the drinkID of the favorite matches the input drinkID
                     return true;
                 }
             }

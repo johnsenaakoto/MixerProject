@@ -108,6 +108,18 @@ public class SearchFragment extends HomeFragment {
 
         // Create searchview and filter
         searchView = view.findViewById(R.id.search_bar);
+      
+        // search view for search list
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String queryIngredient) {
+                lvSearch.setVisibility(View.GONE);
+                tvSearchResults.setText("Search results for " + queryIngredient);
+                tvSearchResults.setVisibility(View.VISIBLE);
+                drinks.clear();
+                queryIDs(queryIngredient);
+                return false;
+            }
 
         // search view for search list
         querySearchView(searchView);
