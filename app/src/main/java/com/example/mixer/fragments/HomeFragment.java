@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
 
     private DrinkAdapter drinkAdapter;
 
-    private SwipeRefreshLayout swipeContainer;
+    protected SwipeRefreshLayout swipeContainer;
     List<Drink> drinks = new ArrayList<>();
 
     public HomeFragment() {

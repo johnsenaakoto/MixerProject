@@ -63,6 +63,7 @@ public class SearchFragment extends HomeFragment {
         if(DetailActivity.getKey() == 3){
             DetailActivity.setKey(0);
             getDrinkAdapter().notifyDataSetChanged();
+            searchView.clearFocus();
             }
     }
 
@@ -73,7 +74,7 @@ public class SearchFragment extends HomeFragment {
     TextView tvSearchResults;
     public static String selectedIngredient;
     ArrayAdapter<String> arrayAdapter;
-    private SwipeRefreshLayout swipeContainer;
+    SearchView searchView;
 
     public SearchFragment() {
         // Required empty public constructor
@@ -106,7 +107,7 @@ public class SearchFragment extends HomeFragment {
         queryForIngredients(arrayAdapter, lvSearch);
 
         // Create searchview and filter
-        SearchView searchView = view.findViewById(R.id.search_bar);
+        searchView = view.findViewById(R.id.search_bar);
 
         // search view for search list
         querySearchView(searchView);
@@ -133,12 +134,7 @@ public class SearchFragment extends HomeFragment {
         // Takes focus from searchView when list view or recycler view is touched
         clearSearchView(searchView);
 
-        // Refresh screen when you swipe up
-        // Configure the refreshing colors
-        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_red_light);
+        // Refresh screen set to false when you swipe up
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
