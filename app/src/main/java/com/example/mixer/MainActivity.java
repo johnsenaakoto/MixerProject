@@ -3,11 +3,13 @@ package com.example.mixer;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Layout;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private BottomNavigationView bottomNavigationView;
     private ImageButton btnProfile;
     private Button btnLogout;
+    private View rootLayout;
     private int LogOutVisibility = 0;
     public int favoriteCheck = 0;
     public static final String TAG = "MainActivity";    // Create a tag for logging this activity
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         btnProfile = findViewById(R.id.ibLogOut);
         btnLogout = findViewById(R.id.btnLogout);
+        rootLayout = findViewById(R.id.content);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -168,4 +172,9 @@ public class MainActivity extends AppCompatActivity {
     public static int getKey(){
         return Key;
     }
+
+    public View getRootLayout(){
+        return  rootLayout;
+    }
+
 }
