@@ -21,6 +21,7 @@
         android:queryHint="Search cocktails by ingredients"
         android:submitBackground="@drawable/bg_white_rounded" />
 
+
     <TextView
         android:id="@+id/tvSearchResults"
         android:layout_width="match_parent"
@@ -33,6 +34,14 @@
         android:textColor="@color/light2"
         android:textSize="14sp"
         android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:layout_below="@+id/tvSearchResults"
+        android:layout_marginStart="175dp"/>
 
     <ListView
         android:layout_below="@+id/tvSearchResults"
@@ -53,7 +62,8 @@
             android:layout_height="match_parent"
             android:layout_marginStart="0dp"
             android:layout_marginTop="0dp"
-            android:background="@color/dark1" />
+            android:background="@color/dark1"
+            android:visibility="invisible"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

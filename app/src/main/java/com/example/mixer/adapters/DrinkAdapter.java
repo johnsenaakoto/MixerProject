@@ -16,12 +16,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Delete;
 
 import com.bumptech.glide.Glide;
 import com.example.mixer.DetailActivity;
 import com.example.mixer.Drink;
+import com.example.mixer.DrinkDiffUtilCallback;
 import com.example.mixer.Favorites;
 import com.example.mixer.LoginActivity;
 import com.example.mixer.MainActivity;
@@ -59,6 +61,7 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
         this.drinks = drinks;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -69,12 +72,14 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+
         // Get the drink at the passed position
         Drink drink = drinks.get(position);
         Animation animation1 = AnimationUtils.loadAnimation(this.context, R.anim.fade_in);
         holder.itemView.startAnimation(animation1);
         // Bind the movie data into the VH
         holder.bind(drink);
+        Log.d("Adapter", drink.toString());
     }
 
     @Override
