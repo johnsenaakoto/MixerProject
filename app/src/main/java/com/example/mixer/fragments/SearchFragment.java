@@ -64,7 +64,7 @@ public class SearchFragment extends HomeFragment {
             DetailActivity.setKey(0);
             getDrinkAdapter().notifyDataSetChanged();
             searchView.clearFocus();
-        }
+            }
     }
 
 
@@ -110,43 +110,18 @@ public class SearchFragment extends HomeFragment {
         searchView = view.findViewById(R.id.search_bar);
 
         // search view for search list
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String queryIngredient) {
-                lvSearch.setVisibility(View.GONE);
-                tvSearchResults.setText("Search results for " + queryIngredient);
-                tvSearchResults.setVisibility(View.VISIBLE);
-                drinks.clear();
-                queryIDs(queryIngredient);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
-
-        // search view for search list
         querySearchView(searchView);
 
-
         // Set the adapter to the recycler view
-        rvDrinks.setAdapter(
-
-                getDrinkAdapter());
+        rvDrinks.setAdapter(getDrinkAdapter());
 
         // Set a layout manager
-        rvDrinks.setLayoutManager(new
-
-                LinearLayoutManager(getContext()));
+        rvDrinks.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Set onItemClickListener for items in listview
-        lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener()
-
-        {
+        lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick (AdapterView < ? > adapterView, View view,int i, long l){
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 searchView.clearFocus();
                 selectedIngredient = (lvSearch.getItemAtPosition(i).toString());
                 tvSearchResults.setText("Search results for " + selectedIngredient);
@@ -167,7 +142,6 @@ public class SearchFragment extends HomeFragment {
             }
         });
     }
-
 
     private void clearSearchView(SearchView searchView) {
         // clears searchView when the list view of top ingredients is touched
