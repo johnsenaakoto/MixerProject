@@ -3,6 +3,7 @@ package com.example.mixer.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,12 +148,8 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
-                    unFav(drink.getDrinkID());
+                    unFav(drink.getDrinkID(),getAdapterPosition());
                     detailActivity.getFavs();
-                    if (MainActivity.getKey() == 2) {
-                        drinks.remove(getAdapterPosition());
-                        notifyDataSetChanged();
-                    }
                 }
             });
         }
@@ -202,7 +199,9 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
     }
 
-    private void unFav(int drinkId) {
+    private void unFav(int drinkId,int adapterPosition) {
+        Activity activity = (Activity) context;
+        final boolean[] didUndo = {false};
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorites");
         query.whereEqualTo("drinkID", drinkId);
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -217,7 +216,38 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
                         public void done(ParseException e) {
                             // inside done method checking if the error is null or not.
                             if (e == null) {
-                                Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                if(MainActivity.getKey() == 2){
+                                    Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content),"Favorite Removed..",Snackbar.LENGTH_SHORT);
+                                    snackbar.setAction("Undo", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View view) {
+                                            didUndo[0] = true;
+                                        }
+                                    });
+//                                    snackbar.setAction("No", new View.OnClickListener() {
+//                                        @Override
+//                                        public void onClick(View view) {
+//                                            didUndo[0] = false;
+//                                        }
+//                                    });
+                                    snackbar.show();
+                                    snackbar.addCallback(new Snackbar.Callback() {
+                                        @Override
+                                        public void onDismissed(Snackbar snackbar, int event) {
+                                            if (didUndo[0]) {
+                                                saveFav(ParseUser.getCurrentUser(),drinkId);
+                                                notifyDataSetChanged();
+                                            }
+                                            else{
+                                                drinks.remove(adapterPosition);
+                                                notifyDataSetChanged();
+                                            }
+                                        }
+                                    });
+
+                                }else{
+                                    Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                }
                             } else {
                                 Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
