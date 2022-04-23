@@ -98,6 +98,8 @@ public class HomeFragment extends Fragment {
         // Set a layout manager
         rvDrinks.setLayoutManager(new LinearLayoutManager(getContext()));
         queryDrinks(drinkAdapter, "none");
+        rvDrinks.setVisibility(View.VISIBLE);
+
 
 
         // Refresh screen when you swipe up

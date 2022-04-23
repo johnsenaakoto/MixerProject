@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +74,7 @@ public class SearchFragment extends HomeFragment {
     RecyclerView rvDrinks;
     List<String> ingredients;
     TextView tvSearchResults;
+    ProgressBar pbLoading;
     public static String selectedIngredient;
     ArrayAdapter<String> arrayAdapter;
     SearchView searchView;
@@ -101,6 +104,7 @@ public class SearchFragment extends HomeFragment {
         rvDrinks = view.findViewById(R.id.rvDrinks);
         tvSearchResults = view.findViewById(R.id.tvSearchResults);
         swipeContainer = view.findViewById(R.id.swipeContainer);
+        pbLoading = view.findViewById(R.id.pbLoading);
 
         // create arrayAdapter for lvSearch
         arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.search_list_layout, ingredients);
@@ -122,12 +126,37 @@ public class SearchFragment extends HomeFragment {
         lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                // when an item is clicked clear RV list, clear search focus, hide RV, hide LV
+                drinks.clear();
                 searchView.clearFocus();
+                rvDrinks.setVisibility(View.INVISIBLE);
+                lvSearch.setVisibility(View.GONE);
+
+                //  get search string search for drink
                 selectedIngredient = (lvSearch.getItemAtPosition(i).toString());
                 tvSearchResults.setText("Search results for " + selectedIngredient);
-                tvSearchResults.setVisibility(View.VISIBLE);
-                lvSearch.setVisibility(View.GONE);
                 queryIDs(selectedIngredient);
+
+                // show search results, show progressbar,
+                tvSearchResults.setVisibility(View.VISIBLE);
+                pbLoading.setVisibility(ProgressBar.VISIBLE);   // Set progress bar to visible
+
+                // Set delay to allow search results to be received before displaying RV, and hiding progressbar
+                new CountDownTimer(2000, 1000) {
+                    @Override
+                    public void onFinish() {
+                        rvDrinks.setVisibility(View.VISIBLE);
+                        pbLoading.setVisibility(ProgressBar.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+                }.start();
+
+
             }
         });
 
@@ -171,10 +200,30 @@ public class SearchFragment extends HomeFragment {
             @Override
             public boolean onQueryTextSubmit(String queryIngredient) {
                 drinks.clear();
+                rvDrinks.setVisibility(View.INVISIBLE);
                 lvSearch.setVisibility(View.GONE);
-                queryIDs(queryIngredient);
+
+                // search for drink, show results
                 tvSearchResults.setText("Search results for " + queryIngredient);
+                queryIDs(queryIngredient);
                 tvSearchResults.setVisibility(View.VISIBLE);
+                pbLoading.setVisibility(ProgressBar.VISIBLE);   // Set progress bar to visible
+
+                // Set delay to allow search results to be received before displaying RV, and hiding progressbar
+                new CountDownTimer(2000, 1000) {
+                    @Override
+                    public void onFinish() {
+                        rvDrinks.setVisibility(View.VISIBLE);
+                        pbLoading.setVisibility(ProgressBar.INVISIBLE);
+                    }
+
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+                }.start();
+
+
                 return false;
             }
 
