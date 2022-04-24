@@ -40,11 +40,11 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 **Optional Nice-to-have Stories**
 
 - [X] User can delete drinks in favorite list
-- [ ] In MainActivity, user can click on random drink button to reveal cocktail of the day
-- [ ] User can create and post custom cocktails specific to their id
+- [X] After User deletes a favorite in favorites fragment a snackbar is made, prompting the user to undo the removal.
+- [X] A search fragment where user can search based on ingredient.
+- [X] A progress bar that indicates the search is ongoing. 
 - [X] User can favorite drinks in mainactivity and detail activity
 - [X] User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
-- [ ] App checks that user is of age before allowing them to sign up.
 
 ### 2. Screen Archetypes
 
