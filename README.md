@@ -42,7 +42,7 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 - [X] User can delete drinks in favorite list
 - [X] After User deletes a favorite in favorites fragment a snackbar is made, prompting the user to undo the removal.
 - [X] A search fragment where user can search based on ingredient.
-- [X] a progress bar that indicates the search is ongoing. 
+- [X] A progress bar that indicates the search is ongoing. 
 - [X] User can favorite drinks in mainactivity and detail activity
 - [X] User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 
