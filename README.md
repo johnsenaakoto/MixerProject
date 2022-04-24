@@ -34,7 +34,7 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 - [X] User can sign up using Parse Authentication
 - [X] User can see a recyclerlist of popular cocktails (drink name, picture, overview) in main activity
 - [X] User can expose details of a cocktail in a separate activity (detail activity)
-- [X] User can navigate between tabs (stream and favorites)
+- [X] User can navigate between tabs (stream, favorites, and search)
 - [X] Favorites are sent and strored to the user's account
 
 **Optional Nice-to-have Stories**
