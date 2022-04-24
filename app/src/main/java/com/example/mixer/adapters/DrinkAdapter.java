@@ -45,6 +45,8 @@ import com.parse.SaveCallback;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
@@ -148,8 +150,27 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
 
                 @Override
                 public void unLiked(LikeButton likeButton) {
+                    Activity activity = (Activity) context;
                     unFav(drink.getDrinkID(),getAdapterPosition());
-                    detailActivity.getFavs();
+                    if(MainActivity.getKey() == 2){
+                        Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content),"Favorite Removed..",Snackbar.LENGTH_SHORT);
+                        snackbar.setAction("Undo", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                saveFav(ParseUser.getCurrentUser(),drink.getDrinkID());
+                                drinks.add(drink);
+                                Collections.sort(drinks, new Comparator<Drink>() {
+                                    @Override
+                                    public int compare(Drink drink, Drink t1) {
+                                        return drink.getDrinkName().compareToIgnoreCase(t1.getDrinkName());
+                                    }
+                                });
+                                detailActivity.getFavs();
+                                notifyDataSetChanged();
+                            }
+                        });
+                        snackbar.show();
+                    }
                 }
             });
         }
@@ -200,7 +221,6 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
     }
 
     private void unFav(int drinkId,int adapterPosition) {
-        Activity activity = (Activity) context;
         final boolean[] didUndo = {false};
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Favorites");
         query.whereEqualTo("drinkID", drinkId);
@@ -217,34 +237,9 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
                             // inside done method checking if the error is null or not.
                             if (e == null) {
                                 if(MainActivity.getKey() == 2){
-                                    Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content),"Favorite Removed..",Snackbar.LENGTH_SHORT);
-                                    snackbar.setAction("Undo", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View view) {
-                                            didUndo[0] = true;
-                                        }
-                                    });
-//                                    snackbar.setAction("No", new View.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(View view) {
-//                                            didUndo[0] = false;
-//                                        }
-//                                    });
-                                    snackbar.show();
-                                    snackbar.addCallback(new Snackbar.Callback() {
-                                        @Override
-                                        public void onDismissed(Snackbar snackbar, int event) {
-                                            if (didUndo[0]) {
-                                                saveFav(ParseUser.getCurrentUser(),drinkId);
-                                                notifyDataSetChanged();
-                                            }
-                                            else{
-                                                drinks.remove(adapterPosition);
-                                                notifyDataSetChanged();
-                                            }
-                                        }
-                                    });
-
+                                    drinks.remove(adapterPosition);
+                                    detailActivity.getFavs();
+                                    notifyDataSetChanged();
                                 }else{
                                     Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
                                 }
