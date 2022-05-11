@@ -30,21 +30,22 @@ Contributer: **John Sena Akoto**, **Karl Devlin**
 
 **Required Must-have Stories**
 
-- [X] User can log in and out using Parse authentication
 - [X] User can sign up using Parse Authentication
-- [X] User can see a recyclerlist of popular cocktails (drink name, picture, overview) in main activity
+- [X] User can log in and out using Parse authentication
+- [X] User can navigate between 3 tabs (stream, favorites, and search)
+- [X] User can see a recyclerlist of 15 popular cocktails (drink name, picture, overview) in main activity
+- [X] User can pull down to refresh stream list of cocktails
 - [X] User can expose details of a cocktail in a separate activity (detail activity)
-- [X] User can navigate between tabs (stream and favorites)
-- [X] Favorites are sent and strored to the user's account
+- [X] User can access a favorites fragment from the bottom navigation bar
+- [X] User can favorite drinks in mainactivity and detail activity
+- [X] User can delete drinks in favorite list from favorite stream and detail activity
+- [X] Favorites are sent and stored to the user's account
 
 **Optional Nice-to-have Stories**
 
-- [X] User can delete drinks in favorite list
 - [X] After User deletes a favorite in favorites fragment a snackbar is made, prompting the user to undo the removal.
 - [X] A search fragment where user can search based on ingredient.
 - [X] A progress bar that indicates the search is ongoing. 
-- [X] User can favorite drinks in mainactivity and detail activity
-- [X] User can expose favorite drinks recyclerlist in a separate activity (favorite activity)
 
 ### 2. Screen Archetypes
 

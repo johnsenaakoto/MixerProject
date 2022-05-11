@@ -271,7 +271,7 @@ public class SearchFragment extends HomeFragment {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.d(TAG, "Failure: " + response);
-                Toast.makeText(getContext(), "Couldn't find " + selectedIngredient, Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Couldn't find drinks with " + selectedIngredient, Toast.LENGTH_LONG).show();
             }
         });
     }
