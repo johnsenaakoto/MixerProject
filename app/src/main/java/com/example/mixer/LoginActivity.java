@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnLogin;
     private Button btnSignUp;
+    private CheckBox checkAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,14 @@ public class LoginActivity extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.btnSignUp);
+        checkAge = findViewById(R.id.checkAge);
+
+        // set up btnSignUp color and greyed out
+        btnSignUp.setBackgroundColor(getResources().getColor(R.color.teal_700));
+        btnSignUp.setEnabled(false);
+        btnSignUp.setAlpha(.5f);
+
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -65,6 +76,21 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+
+
+
+        // checks if age consent is given and enables btnSignUp and ungrey
+        checkAge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                btnSignUp.setEnabled(isChecked);
+                btnSignUp.setAlpha(1);
+            }
+        });
+
+
+
+        // signups new user
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,10 +108,10 @@ public class LoginActivity extends AppCompatActivity {
                     public void done(ParseException e) {
                         if (e == null) {
                             goMainActivity();
-//                            Toast.makeText(LoginActivity.this, "Sign up Success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Sign up Success", Toast.LENGTH_SHORT).show();
                         } else {
                             Log.e(TAG, "issue with sign up", e);
-//                            Toast.makeText(LoginActivity.this, "Error signing up", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Error signing up", Toast.LENGTH_LONG).show();
                         }
                     }
                 });

@@ -231,23 +231,28 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
                 if (e == null) {
                     // on below line we are getting the first cocktail and
                     // calling a delete method to delete this cocktail.
-                    objects.get(0).deleteInBackground(new DeleteCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            // inside done method checking if the error is null or not.
-                            if (e == null) {
-                                if(MainActivity.getKey() == 2){
-                                    drinks.remove(adapterPosition);
-                                    detailActivity.getFavs();
-                                    notifyDataSetChanged();
-                                }else{
-                                    Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                    if (objects.isEmpty()){
+                        notifyDataSetChanged();
+                    }
+                    else{
+                        objects.get(0).deleteInBackground(new DeleteCallback() {
+                            @Override
+                            public void done(ParseException e) {
+                                // inside done method checking if the error is null or not.
+                                if (e == null) {
+                                    if(MainActivity.getKey() == 2){
+                                        drinks.remove(adapterPosition);
+                                        detailActivity.getFavs();
+                                        notifyDataSetChanged();
+                                    }else{
+                                        Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
                             }
-                        }
-                    });
+                        });
+                    }
                 } else {
                     Toast.makeText(context, "Failed to get the object..", Toast.LENGTH_SHORT).show();
                 }
