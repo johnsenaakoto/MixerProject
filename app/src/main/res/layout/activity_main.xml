@@ -17,17 +17,11 @@
             android:visibility="visible"
             app:titleTextColor="@android:color/white">
 
-                <ImageButton
-                    android:id="@+id/icFavorite"
-                    android:layout_width="28dp"
-                    android:layout_height="48dp"
-                    android:src="@drawable/ic_favorite"
-                    android:visibility="invisible"
-                    tools:ignore="SpeakableTextPresentCheck" />
 
                 <ImageView
                     android:id="@+id/icLogo"
-                    android:layout_width="300dp"
+                    android:layout_width="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_height="40dp"
                     android:scaleType="centerInside"
                     android:scaleX="4"
@@ -40,6 +34,7 @@
                     android:id="@+id/ibLogOut"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_gravity="end"
                     android:background="?attr/colorPrimary"
                     android:src="@drawable/ic_logout"
                     android:visibility="visible"
@@ -59,7 +54,8 @@
                     android:id="@+id/btnLogout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="290dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="5dp"
                     android:layout_marginTop="5dp"
                     android:text="Logout"
                     android:visibility="invisible" />

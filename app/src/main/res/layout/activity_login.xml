@@ -27,8 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginStart="120dp"
-        android:layout_gravity="top"
+        android:layout_gravity="center"
         android:fontFamily="@font/aldrich"
         android:text="mixer"
         android:textColor="@color/light1"
@@ -40,7 +39,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="60dp"
-        android:layout_marginStart="170dp"
+        android:layout_gravity="center"
         android:scaleX="2.25"
         android:scaleY="2.25"
         app:srcCompat="@mipmap/ic_cocktail_icon_foreground" />
@@ -95,7 +94,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="16dp"
         android:checked="false"
         />
     <Button
