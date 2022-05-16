@@ -67,6 +67,7 @@ public class HomeFragment extends Fragment {
         if(DetailActivity.getKey() == 1){
             getDrinkAdapter().notifyDataSetChanged();
         }
+
     }
 
     // The onCreateView method is called when Fragment should create its View object hierarchy,
