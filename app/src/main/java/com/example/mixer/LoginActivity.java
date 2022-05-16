@@ -29,8 +29,6 @@ public class LoginActivity extends AppCompatActivity {
     public static final String TAG = "LoginActivity";
     private EditText etUsername;
     private EditText etPassword;
-    private Button btnLogin;
-    private Button btnSignUp;
     private CheckBox checkAge;
 
     @Override
@@ -55,9 +53,11 @@ public class LoginActivity extends AppCompatActivity {
         Button btnLogin = findViewById(R.id.btnLogin);
         Button btnSignUp = findViewById(R.id.btnSignUp);
         AdView adView = findViewById(R.id.adView);
+        AdView adView2 = findViewById(R.id.adView2);
 
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
+        adView2.loadAd(adRequest);
 
         btnLogin = findViewById(R.id.btnLogin);
         btnSignUp = findViewById(R.id.btnSignUp);
@@ -99,11 +99,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
         // checks if age consent is given and enables btnSignUp and ungrey
+        Button finalBtnSignUp = btnSignUp;
         checkAge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                btnSignUp.setEnabled(isChecked);
-                btnSignUp.setAlpha(1);
+                finalBtnSignUp.setEnabled(isChecked);
+                finalBtnSignUp.setAlpha(1);
             }
         });
 
