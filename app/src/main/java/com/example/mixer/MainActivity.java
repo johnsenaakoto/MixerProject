@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
         this.getSupportFragmentManager().popBackStack();
+        finish();
     }
     public void setKey(int i){
         Key = i;

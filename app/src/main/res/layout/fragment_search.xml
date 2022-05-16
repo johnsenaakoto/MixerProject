@@ -41,7 +41,7 @@
         android:layout_height="wrap_content"
         android:visibility="invisible"
         android:layout_below="@+id/tvSearchResults"
-        android:layout_marginStart="175dp"/>
+        android:layout_centerInParent="true"/>
 
     <ListView
         android:layout_below="@+id/tvSearchResults"
