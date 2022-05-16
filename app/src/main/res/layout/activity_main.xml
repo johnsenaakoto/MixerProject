@@ -74,6 +74,7 @@
             android:background="@color/purple_500"
             app:itemIconTint="@color/light2"
             app:itemTextColor="@color/light2"
-            app:menu="@menu/menu_bottom_navigation" />
+            app:menu="@menu/menu_bottom_navigation" />0
+
 
 </RelativeLayout>

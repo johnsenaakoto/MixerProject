@@ -14,6 +14,11 @@ import com.bumptech.glide.Glide;
 import com.codepath.asynchttpclient.AsyncHttpClient;
 import com.example.mixer.adapters.DrinkAdapter;
 import com.example.mixer.fragments.FavoritesFragment;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.parse.DeleteCallback;
@@ -52,6 +57,12 @@ public class DetailActivity extends AppCompatActivity {
         getSupportActionBar().hide();   // Hide Action bar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
         tvName = findViewById(R.id.tvName);
         tvAlcoholic = findViewById(R.id.tvAlcoholic);
         tvCategory = findViewById(R.id.tvCategory);
@@ -59,6 +70,10 @@ public class DetailActivity extends AppCompatActivity {
         tvInstructions = findViewById(R.id.tvInstructions);
         lvIngredients = findViewById(R.id.lvIngredients);
         icFavorite = findViewById(R.id.icFavorite);
+        AdView adView = findViewById(R.id.adView);
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+        adView.loadAd(adRequest);
 
         Drink drink = Parcels.unwrap(getIntent().getParcelableExtra("drink"));
         Key = Parcels.unwrap(getIntent().getParcelableExtra("key"));

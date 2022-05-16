@@ -26,6 +26,16 @@ import com.example.mixer.adapters.DrinkAdapter;
 import com.example.mixer.fragments.FavoritesFragment;
 import com.example.mixer.fragments.HomeFragment;
 import com.example.mixer.fragments.SearchFragment;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.parse.ParseUser;
 
@@ -55,11 +65,11 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();   // Hide Action bar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         bottomNavigationView = findViewById(R.id.bottomNavigation);
         btnProfile = findViewById(R.id.ibLogOut);
         btnLogout = findViewById(R.id.btnLogout);
         rootLayout = findViewById(R.id.content);
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -161,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
                 goToLogIn();            }
         });
     }
+
     private void goToLogIn() {
         Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);
