@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +20,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +32,15 @@ import com.example.mixer.Favorites;
 import com.example.mixer.MainActivity;
 import com.example.mixer.R;
 import com.example.mixer.adapters.DrinkAdapter;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -74,7 +81,6 @@ public class SearchFragment extends HomeFragment {
     RecyclerView rvDrinks;
     List<String> ingredients;
     TextView tvSearchResults;
-    ProgressBar pbLoading;
     public static String selectedIngredient;
     ArrayAdapter<String> arrayAdapter;
     SearchView searchView;
@@ -104,7 +110,6 @@ public class SearchFragment extends HomeFragment {
         rvDrinks = view.findViewById(R.id.rvDrinks);
         tvSearchResults = view.findViewById(R.id.tvSearchResults);
         swipeContainer = view.findViewById(R.id.swipeContainer);
-        pbLoading = view.findViewById(R.id.pbLoading);
 
         // create arrayAdapter for lvSearch
         arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.search_list_layout, ingredients);
@@ -126,37 +131,12 @@ public class SearchFragment extends HomeFragment {
         lvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                // when an item is clicked clear RV list, clear search focus, hide RV, hide LV
-                drinks.clear();
                 searchView.clearFocus();
-                rvDrinks.setVisibility(View.INVISIBLE);
-                lvSearch.setVisibility(View.GONE);
-
-                //  get search string search for drink
                 selectedIngredient = (lvSearch.getItemAtPosition(i).toString());
                 tvSearchResults.setText("Search results for " + selectedIngredient);
-                queryIDs(selectedIngredient);
-
-                // show search results, show progressbar,
                 tvSearchResults.setVisibility(View.VISIBLE);
-                pbLoading.setVisibility(ProgressBar.VISIBLE);   // Set progress bar to visible
-
-                // Set delay to allow search results to be received before displaying RV, and hiding progressbar
-                new CountDownTimer(2000, 1000) {
-                    @Override
-                    public void onFinish() {
-                        rvDrinks.setVisibility(View.VISIBLE);
-                        pbLoading.setVisibility(ProgressBar.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onTick(long l) {
-
-                    }
-                }.start();
-
-
+                lvSearch.setVisibility(View.GONE);
+                queryIDs(selectedIngredient);
             }
         });
 
@@ -199,31 +179,8 @@ public class SearchFragment extends HomeFragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String queryIngredient) {
-                drinks.clear();
-                rvDrinks.setVisibility(View.INVISIBLE);
-                lvSearch.setVisibility(View.GONE);
-
-                // search for drink, show results
-                tvSearchResults.setText("Search results for " + queryIngredient);
-                queryIDs(queryIngredient);
-                tvSearchResults.setVisibility(View.VISIBLE);
-                pbLoading.setVisibility(ProgressBar.VISIBLE);   // Set progress bar to visible
-
-                // Set delay to allow search results to be received before displaying RV, and hiding progressbar
-                new CountDownTimer(2000, 1000) {
-                    @Override
-                    public void onFinish() {
-                        rvDrinks.setVisibility(View.VISIBLE);
-                        pbLoading.setVisibility(ProgressBar.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onTick(long l) {
-
-                    }
-                }.start();
-
-
+                swipeContainer.setRefreshing(true);
+                generateAds(queryIngredient);
                 return false;
             }
 
@@ -335,5 +292,73 @@ public class SearchFragment extends HomeFragment {
                 Log.d(TAG, "Failure: " + response);
             }
         });
+    }
+    public void refresh(String queryIngredient){
+        swipeContainer.setRefreshing(false);
+        drinks.clear();
+        lvSearch.setVisibility(View.GONE);
+        queryIDs(queryIngredient);
+        tvSearchResults.setText("Search results for " + queryIngredient);
+        tvSearchResults.setVisibility(View.VISIBLE);
+        getActivity().getCurrentFocus().clearFocus();
+    }
+    public void generateAds(String queryIngredient){
+
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            }
+        });
+
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(getContext(),"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+
+//                        Toast.makeText(MainActivity.this,"Ad Loaded", Toast.LENGTH_SHORT).show();
+                        interstitialAd.show(getActivity());
+                        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                                super.onAdFailedToShowFullScreenContent(adError);
+//                                Toast.makeText(MainActivity.this, "Faild to show Ad", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                super.onAdShowedFullScreenContent();
+//                                Toast.makeText(MainActivity.this,"Ad Shown Successfully",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                super.onAdDismissedFullScreenContent();
+                                refresh(queryIngredient);
+//                                Toast.makeText(MainActivity.this,"Ad Dismissed / Closed",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdImpression() {
+                                super.onAdImpression();
+//                                Toast.makeText(MainActivity.this,"Ad Impression Count",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdClicked() {
+                                super.onAdClicked();
+//                                Toast.makeText(MainActivity.this,"Ad Clicked",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//                        Toast.makeText(MainActivity.this,"Failed to Load Ad because="+loadAdError.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }
