@@ -3,7 +3,6 @@ package com.example.mixer.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -253,6 +252,23 @@ public class DrinkAdapter extends RecyclerView.Adapter<DrinkAdapter.ViewHolder> 
                             }
                         });
                     }
+                    objects.get(0).deleteInBackground(new DeleteCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            // inside done method checking if the error is null or not.
+                            if (e == null) {
+                                if(MainActivity.getKey() == 2){
+                                    drinks.remove(adapterPosition);
+                                    detailActivity.getFavs();
+                                    notifyDataSetChanged();
+                                }else{
+                                    Toast.makeText(context, "Favorite Removed..", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(context, "Failed to remove Favorite..", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
                 } else {
                     Toast.makeText(context, "Failed to get the object..", Toast.LENGTH_SHORT).show();
                 }

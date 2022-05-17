@@ -34,6 +34,15 @@ import com.example.mixer.Favorites;
 import com.example.mixer.MainActivity;
 import com.example.mixer.R;
 import com.example.mixer.adapters.DrinkAdapter;
+import com.google.android.gms.ads.AdError;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.LoadAdError;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
+import com.google.android.gms.ads.interstitial.InterstitialAd;
+import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -335,5 +344,73 @@ public class SearchFragment extends HomeFragment {
                 Log.d(TAG, "Failure: " + response);
             }
         });
+    }
+    public void refresh(String queryIngredient){
+        swipeContainer.setRefreshing(false);
+        drinks.clear();
+        lvSearch.setVisibility(View.GONE);
+        queryIDs(queryIngredient);
+        tvSearchResults.setText("Search results for " + queryIngredient);
+        tvSearchResults.setVisibility(View.VISIBLE);
+        getActivity().getCurrentFocus().clearFocus();
+    }
+    public void generateAds(String queryIngredient){
+
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            }
+        });
+
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(getContext(),"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+
+//                        Toast.makeText(MainActivity.this,"Ad Loaded", Toast.LENGTH_SHORT).show();
+                        interstitialAd.show(getActivity());
+                        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                                super.onAdFailedToShowFullScreenContent(adError);
+//                                Toast.makeText(MainActivity.this, "Faild to show Ad", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                super.onAdShowedFullScreenContent();
+//                                Toast.makeText(MainActivity.this,"Ad Shown Successfully",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                super.onAdDismissedFullScreenContent();
+                                refresh(queryIngredient);
+//                                Toast.makeText(MainActivity.this,"Ad Dismissed / Closed",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdImpression() {
+                                super.onAdImpression();
+//                                Toast.makeText(MainActivity.this,"Ad Impression Count",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdClicked() {
+                                super.onAdClicked();
+//                                Toast.makeText(MainActivity.this,"Ad Clicked",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//                        Toast.makeText(MainActivity.this,"Failed to Load Ad because="+loadAdError.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }
