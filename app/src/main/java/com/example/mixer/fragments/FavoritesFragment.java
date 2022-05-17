@@ -56,6 +56,17 @@ public class FavoritesFragment extends HomeFragment {
             queryDrinks(getDrinkAdapter(), "none");        }
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                swipeContainer.setRefreshing(false);
+            }
+        });
+    }
+
 
     @Override
     protected void queryDrinks(DrinkAdapter drinkAdapter, String Placeholder) {
