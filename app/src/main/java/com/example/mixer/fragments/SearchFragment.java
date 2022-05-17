@@ -78,7 +78,7 @@ public class SearchFragment extends HomeFragment {
             }
     }
 
-
+    // android components are instantiated
     ListView lvSearch;
     RecyclerView rvDrinks;
     List<String> ingredients;
@@ -109,20 +109,20 @@ public class SearchFragment extends HomeFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // find different components from fragment_search.xml
         lvSearch = view.findViewById(R.id.lvSearch);
         rvDrinks = view.findViewById(R.id.rvDrinks);
         tvSearchResults = view.findViewById(R.id.tvSearchResults);
         swipeContainer = view.findViewById(R.id.swipeContainer);
         pbLoading = view.findViewById(R.id.pbLoading);
+        searchView = view.findViewById(R.id.search_bar);
 
         // create arrayAdapter for lvSearch
         arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.search_list_layout, ingredients);
         queryForIngredients(arrayAdapter, lvSearch);
 
-        // Create searchview and filter
-        searchView = view.findViewById(R.id.search_bar);
 
-        // search view for search list
+        // query search view
         querySearchView(searchView);
 
         // Set the adapter to the recycler view
@@ -158,14 +158,10 @@ public class SearchFragment extends HomeFragment {
                         rvDrinks.setVisibility(View.VISIBLE);
                         pbLoading.setVisibility(ProgressBar.INVISIBLE);
                     }
-
                     @Override
                     public void onTick(long l) {
-
                     }
                 }.start();
-
-
             }
         });
 
@@ -181,58 +177,13 @@ public class SearchFragment extends HomeFragment {
         });
     }
 
-    private void clearSearchView(SearchView searchView) {
-        // clears searchView when the list view of top ingredients is touched
-        lvSearch.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-                searchView.clearFocus();
-            }
 
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-            }
-        });
-
-        // clears searchView when the recycler view of top ingredients is touched
-        rvDrinks.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                searchView.clearFocus();
-            }
-        });
-    }
-
+    // method when searchView is queried
     private void querySearchView(SearchView searchView) {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String queryIngredient) {
-                drinks.clear();
-                rvDrinks.setVisibility(View.INVISIBLE);
-                lvSearch.setVisibility(View.GONE);
-
-                // search for drink, show results
-                tvSearchResults.setText("Search results for " + queryIngredient);
-                queryIDs(queryIngredient);
-                tvSearchResults.setVisibility(View.VISIBLE);
-                pbLoading.setVisibility(ProgressBar.VISIBLE);   // Set progress bar to visible
-
-                // Set delay to allow search results to be received before displaying RV, and hiding progressbar
-                new CountDownTimer(2000, 1000) {
-                    @Override
-                    public void onFinish() {
-                        rvDrinks.setVisibility(View.VISIBLE);
-                        pbLoading.setVisibility(ProgressBar.INVISIBLE);
-                    }
-
-                    @Override
-                    public void onTick(long l) {
-
-                    }
-                }.start();
-
-
+                generateAds(queryIngredient);
                 return false;
             }
 
@@ -247,6 +198,93 @@ public class SearchFragment extends HomeFragment {
     }
 
 
+    // Method to search for a drink by ingredients
+    public void searchIngredient(String queryIngredient){
+        swipeContainer.setRefreshing(false);
+        drinks.clear();
+        rvDrinks.setVisibility(View.INVISIBLE);
+        lvSearch.setVisibility(View.GONE);
+
+        // search for drink, show results
+        tvSearchResults.setText("Search results for " + queryIngredient);
+        queryIDs(queryIngredient);
+        tvSearchResults.setVisibility(View.VISIBLE);
+        pbLoading.setVisibility(ProgressBar.VISIBLE);   // Set progress bar to visible
+
+        // Set delay to allow search results to be received before displaying RV, and hiding progressbar
+        new CountDownTimer(1000, 1000) {
+            @Override
+            public void onFinish() {
+                rvDrinks.setVisibility(View.VISIBLE);
+                pbLoading.setVisibility(ProgressBar.INVISIBLE);
+            }
+            @Override
+            public void onTick(long l) {
+            }
+        }.start();
+        searchView.clearFocus();
+    }
+
+    // Method to generate Ads
+    public void generateAds(String queryIngredient){
+
+        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            }
+        });
+
+
+        AdRequest adRequest = new AdRequest.Builder().build();
+
+        InterstitialAd.load(getContext(),"ca-app-pub-3940256099942544/1033173712", adRequest,
+                new InterstitialAdLoadCallback() {
+                    @Override
+                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
+
+//                        Toast.makeText(MainActivity.this,"Ad Loaded", Toast.LENGTH_SHORT).show();
+                        interstitialAd.show(getActivity());
+                        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                            @Override
+                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
+                                super.onAdFailedToShowFullScreenContent(adError);
+//                                Toast.makeText(MainActivity.this, "Faild to show Ad", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdShowedFullScreenContent() {
+                                super.onAdShowedFullScreenContent();
+//                                Toast.makeText(MainActivity.this,"Ad Shown Successfully",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdDismissedFullScreenContent() {
+                                super.onAdDismissedFullScreenContent();
+                                searchIngredient(queryIngredient);
+//                                Toast.makeText(MainActivity.this,"Ad Dismissed / Closed",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdImpression() {
+                                super.onAdImpression();
+//                                Toast.makeText(MainActivity.this,"Ad Impression Count",Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onAdClicked() {
+                                super.onAdClicked();
+//                                Toast.makeText(MainActivity.this,"Ad Clicked",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
+//                        Toast.makeText(MainActivity.this,"Failed to Load Ad because="+loadAdError.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+    }
 
     // Get drink IDs of selectedIngredient
     private void queryIDs(String selectedIngredient) {
@@ -345,72 +383,28 @@ public class SearchFragment extends HomeFragment {
             }
         });
     }
-    public void refresh(String queryIngredient){
-        swipeContainer.setRefreshing(false);
-        drinks.clear();
-        lvSearch.setVisibility(View.GONE);
-        queryIDs(queryIngredient);
-        tvSearchResults.setText("Search results for " + queryIngredient);
-        tvSearchResults.setVisibility(View.VISIBLE);
-        getActivity().getCurrentFocus().clearFocus();
-    }
-    public void generateAds(String queryIngredient){
 
-        MobileAds.initialize(getContext(), new OnInitializationCompleteListener() {
+    private void clearSearchView(SearchView searchView) {
+        // clears searchView when the list view of top ingredients is touched
+        lvSearch.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
-            public void onInitializationComplete(@NonNull InitializationStatus initializationStatus) {
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                searchView.clearFocus();
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
             }
         });
 
-
-        AdRequest adRequest = new AdRequest.Builder().build();
-
-        InterstitialAd.load(getContext(),"ca-app-pub-3940256099942544/1033173712", adRequest,
-                new InterstitialAdLoadCallback() {
-                    @Override
-                    public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-
-//                        Toast.makeText(MainActivity.this,"Ad Loaded", Toast.LENGTH_SHORT).show();
-                        interstitialAd.show(getActivity());
-                        interstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                            @Override
-                            public void onAdFailedToShowFullScreenContent(@NonNull AdError adError) {
-                                super.onAdFailedToShowFullScreenContent(adError);
-//                                Toast.makeText(MainActivity.this, "Faild to show Ad", Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onAdShowedFullScreenContent() {
-                                super.onAdShowedFullScreenContent();
-//                                Toast.makeText(MainActivity.this,"Ad Shown Successfully",Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onAdDismissedFullScreenContent() {
-                                super.onAdDismissedFullScreenContent();
-                                refresh(queryIngredient);
-//                                Toast.makeText(MainActivity.this,"Ad Dismissed / Closed",Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onAdImpression() {
-                                super.onAdImpression();
-//                                Toast.makeText(MainActivity.this,"Ad Impression Count",Toast.LENGTH_SHORT).show();
-                            }
-
-                            @Override
-                            public void onAdClicked() {
-                                super.onAdClicked();
-//                                Toast.makeText(MainActivity.this,"Ad Clicked",Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onAdFailedToLoad(@NonNull LoadAdError loadAdError) {
-//                        Toast.makeText(MainActivity.this,"Failed to Load Ad because="+loadAdError.getMessage(),Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+        // clears searchView when the recycler view of top ingredients is touched
+        rvDrinks.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                searchView.clearFocus();
+            }
+        });
     }
 }
+

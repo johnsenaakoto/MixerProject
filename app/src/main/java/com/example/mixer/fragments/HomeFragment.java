@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.Placeholder;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -61,6 +62,7 @@ public class HomeFragment extends Fragment {
     public static final String RANDOM_DRINK_URL = "https://www.thecocktaildb.com/api/json/v1/1/random.php"; // Create string to hold http for API request
     public static final String TAG = "HomeFragment";    // Create a tag for logging this activity
     public static int numDrinks = 15;
+    public static int refreshCounter = 0;
 
     private DrinkAdapter drinkAdapter;
 
@@ -123,8 +125,14 @@ public class HomeFragment extends Fragment {
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                //Log.i(TAG, "fetching new data!");
-                generateAds();
+                // logic to show adds on every 3 refreshes
+                refreshCounter += 1;
+                if (refreshCounter%3 == 0){
+                    generateAds();
+                }
+                else {
+                    refreshDrinks();
+                }
             }
         });
     }
@@ -166,7 +174,9 @@ public class HomeFragment extends Fragment {
     public void setDrinkAdapter(DrinkAdapter DA){
         drinkAdapter = DA;
     }
-    public void refresh(){
+
+    // refresh drinks in recycler view
+    public void refreshDrinks(){
         drinks.clear();
         drinkAdapter.notifyDataSetChanged();
         queryDrinks(drinkAdapter, "none");
@@ -207,7 +217,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void onAdDismissedFullScreenContent() {
                                 super.onAdDismissedFullScreenContent();
-                                refresh();
+                                refreshDrinks();
 //                                Toast.makeText(MainActivity.this,"Ad Dismissed / Closed",Toast.LENGTH_SHORT).show();
                             }
 

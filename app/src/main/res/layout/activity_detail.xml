@@ -7,7 +7,8 @@
     tools:context=".DetailActivity"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/dark1">
 
     <LinearLayout
 
@@ -118,7 +119,7 @@
         <ListView
             android:id="@+id/lvIngredients"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="290dp"
             android:background="@color/dark1"
             tools:text="Drink ingredients" />
 
