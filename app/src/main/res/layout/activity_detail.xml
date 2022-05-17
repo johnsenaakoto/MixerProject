@@ -53,15 +53,6 @@
                 app:srcCompat="@drawable/ic_mixer" />
 
 
-            <ImageButton
-                android:id="@+id/ibLogOut"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:background="?attr/colorPrimary"
-                android:src="@drawable/ic_logout"
-                android:visibility="invisible" />
-
-
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
@@ -127,9 +118,8 @@
             android:id="@+id/adView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="center"
+            android:layout_margin="5dp"
             app:adSize="BANNER"
             app:adUnitId="ca-app-pub-3940256099942544/6300978111"
             app:layout_constraintBottom_toBottomOf="parent"
